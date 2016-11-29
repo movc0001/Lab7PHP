@@ -17,11 +17,22 @@
         include "./Lab7Common/Constants.php";
 
         session_start();
+        
+        if(isset($_SESSION['user'])){
+            $loginMessage = "You are already logged in!";
+        }
+        else{
+            $loginMessage ="";
+        }
+        
         extract($_POST);
+        
 
         $dao = new DataAccessObject(INI_FILE_PATH);
 
         if (isset($_POST["btnsubmit"])) {
+            
+            
 
         $userId = trim($_POST["id"]);
         $pass = trim($_POST["password"]);
@@ -47,6 +58,11 @@
         if (count($errorlist) <= 0){
 
         $_SESSION["user"] = $user;
+        
+        if($_SESSION['rurl'] = "AddAlbum.php"){
+             header("Location: AddAlbum.php");
+             exit();
+        }
         header("Location: AddAlbum.php");
         exit();
 
@@ -70,13 +86,13 @@
         ?>
         <div class="container">
             <div class="row vertical-margin">
-                <div class="col-sm-8 text-center">
+                <div class="col-md-8 text-center">
                     <h2>Log In</h2>
                 </div>          
             </div>
             <div class="row vertical-margin">
-                <div class="col-sm-6 text-center">
-                    <p>You need to sign up if you are a new user</p>
+                <div class="col-md-6">
+                    <p>You need to <a href="NewUser.php"> sign up </a> if you are a new user!</p>
                     <p style="color: red"><?php print $loginError; ?></p>
                 </div>          
             </div>
@@ -84,8 +100,8 @@
             <br/>
             <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="id">User ID:</label>
-                    <div class="col-sm-4">
+                    <label class="control-label col-md-2" for="id">User ID:</label>
+                    <div class="col-md-4">
                         <input type="text" class="form-control" id="id" name="id" 
                                value="<?php print $userId ?>"/><span style="color:red"><?php print $userIdValidateError ?></span>
                     </div>
@@ -93,9 +109,9 @@
 
 
                 <div class="form-group" >
-                    <label class="control-label col-sm-2" for="password" >Password: </label>  
-                    <div class="col-sm-4">
-                        <input class="form-control col-sm-4" type="password" id="password" name="password" value="<?php print $pass ?>"><span style="color:red"><?php print $passValidateError ?></span>  
+                    <label class="control-label col-md-2" for="password" >Password: </label>  
+                    <div class="col-md-4">
+                        <input class="form-control col-md-4" type="password" id="password" name="password" value="<?php print $pass ?>"><span style="color:red"><?php print $passValidateError ?></span>  
                     </div> 
 
                 </div>
@@ -103,7 +119,7 @@
 
                 <br/>
 
-                <div class="col-sm-6">
+                <div class="col-md-6 text-right">
                     <input class="btn btn-primary" type = "submit" name="btnsubmit" value = "Submit" class="button" />
                     <button class="btn btn-primary" type="reset" name="btnClear" value="Reset" class="button">Clear</button>
                 </div>

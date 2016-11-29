@@ -97,14 +97,14 @@ class User {
     function getFriendrequesters() {
         return $this->friendrequesters;
     }
+
     function setFriendrequesters($friendrequesters) {
         $this->friendrequesters = $friendrequesters;
     }
-    
-    function isRequestedBy($userId){}
-    
 
-
+    function isRequestedBy($userId) {
+        
+    }
 
 }
 
@@ -114,15 +114,15 @@ class Album {
     private $title;
     private $description;
     private $date_updated;
-    private $owner_id;
+    //private $ownerId;
     private $accessibility_code;
     private $pictures;
 
-    function __construct($title, $description, $date_updated, $owner_id, $accessibility_code) {
+    function __construct($title, $description, $date_updated, $accessibility_code, $albumId = null) {
         $this->title = $title;
         $this->description = $description;
         $this->date_updated = $date_updated;
-        $this->owner_id = $owner_id;
+        //$this->ownerId = $ownerId;
         $this->accessibility_code = $accessibility_code;
         $this->pictures = array();
     }
@@ -135,16 +135,28 @@ class Album {
         return $this->albumId;
     }
 
+    function setAlbumId($albumId) {
+        $this->albumId = $albumId;
+    }
+
     function getDescription() {
         return $this->description;
+    }
+
+    function setDescription($description) {
+        $this->description = $description;
     }
 
     function getPictures() {
         return $this->pictures;
     }
 
-    function getDate_updated() {
+    function getDate_Updated() {
         return $this->date_updated;
+    }
+
+    function setDate_updated($date_updated) {
+        $this->date_updated = $date_updated;
     }
 
     function getOwner_id() {
@@ -153,10 +165,6 @@ class Album {
 
     function getAccessibility_code() {
         return $this->accessibility_code;
-    }
-
-    function setDescription($description) {
-        $this->description = $description;
     }
 
     //public function _toString();

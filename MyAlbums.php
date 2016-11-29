@@ -18,15 +18,25 @@
         session_start();
         $dao = new DataAccessObject(INI_FILE_PATH);
         if (!isset($_SESSION['user'])) {
-            //$_SESSION['rurl'] = "CourseSelection.php";
+            $_SESSION['rurl'] = "MyAlbums.php";
             header("Location : Login.php");
             exit();
         }
         extract($_POST);
         $user = $_SESSION["user"];
         $error = "";
-        $accessibility = $dao->getAccebility();
+        
+        if (isset($_SESSION['accessibility'])){
+            $accessibility = $_SESSION['accessibility'];
+        }
+        else{
+            $accessibility = $dao->getAccebility();
+            $_SESSION['accessibility'] = $accessibility;
+        }
+        
         $albums = $dao->getAllAlbums();
+        
+        
         ?>
 
         <div class="container">

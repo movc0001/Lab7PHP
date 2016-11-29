@@ -18,27 +18,30 @@
         session_start();
         $dao = new DataAccessObject(INI_FILE_PATH);
         if (!isset($_SESSION['user'])) {
-            //$_SESSION['rurl'] = "CourseSelection.php";
-            header("Location : Login.php");
+            $_SESSION['rurl'] = "AddAlbum.php";
+            header("Location: Login.php");
             exit();
         }
+        $description;
         extract($_POST);
         $user = $_SESSION["user"];
         $error = "";
 
         $access = $dao->getAccebility();
-       if (isset($btnSubmit)) {
-        if (strlen($title) == 0) {
-            $error = "Please, provide a title!";
-        }
-        else{
-            
-            $owner_id = $user->getUserId();
-            $accessibility_code = $accessibility;
-            
-            $dao->saveAlbum($title, $description, $accessibility_code, $owner_id);
-        }
-        
+        $date_updated = date('Y-m-d\TH:i:s');
+
+
+        if (isset($btnSubmit)) {
+            if (strlen($title) == 0) {
+                $error = "Please, provide a title!";
+            } else {
+
+                //$owner_id = $user->getUserId();
+                $accessibility_code = $accessibility;
+                $album = new Album($title, $description, $date_updated, $accessibility_code, $albumId = null);
+
+                $dao->saveAlbum($user, $album);
+            }
         }
         ?>
         <div class="container-fluid">

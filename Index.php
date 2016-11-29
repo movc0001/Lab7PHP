@@ -15,7 +15,7 @@
         include "./Lab7Common/Function_Lib.php";
         include "./Lab7Common/Constants.php";
         ?>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row vertical-margin">
                 <div class="col-md-12">
             <h3>Welcome to Algonquin Sociaal Media Website!</h3>
