@@ -58,16 +58,7 @@ class DataAccessObject {
         }
         return $access;
     }
-    
-    
-//    public function saveAlbum($title,$description, $accessibility_code, $owner_id){
-//        
-//        $sql = "INSERT INTO Album(Title, Description, Accessibility_Code, Owner_Id) Values(:title, :description, :accessibility_code, :owner_id)";
-//        $stmt = $this->pdo->prepare($sql);
-//        $stmt->execute(['title'=>$title, 'description'=>$description, 'accessibility_code'=>$accessibility_code,
-//            'owner_id'=>$owner_id]);
-//        
-//    }
+
     
     public function saveAlbum ($user, $album)
     {
