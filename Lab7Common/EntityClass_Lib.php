@@ -60,7 +60,12 @@ class User {
     function getPassword() {
         return $this->password;
     }
+    
+    public function setPassword($password) {
+        $this->password = $password;
+    }
 
+    
     function getSharedAlbums() {
         $sharedAlbums = array();
         foreach ($this->albums as $album) {

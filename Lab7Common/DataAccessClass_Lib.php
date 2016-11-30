@@ -32,7 +32,7 @@ class DataAccessObject {
     public function getAlbumsForUser($user)
     {
         $albums = array();
-        $sql = "SELECT Album_Id, Title, Description, Date_Updated, Accessibillity_Code "
+        $sql = "SELECT Album_Id, Title, Description, Date_Updated, Accessibility_Code "
                 . "FROM Album WHERE Owner_Id = :userId";
         
         $stmt = $this->pdo->prepare($sql);
@@ -93,8 +93,7 @@ class DataAccessObject {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $userId, 'name' => $name, 'phone' => $phone, 'password' => $password]); 
        
-      $user->setPassword($password);
-        
+          
         
         
     }

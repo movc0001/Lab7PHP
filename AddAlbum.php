@@ -23,6 +23,7 @@
             exit();
         }
         $description='';
+        $title = '';
         extract($_POST);
         $user = $_SESSION["user"];
         $error = "";
@@ -44,32 +45,32 @@
             }
         }
         ?>
-        <div class="container-fluid">
-            <div class="row vertical-margin col-sm-8 text-center">
+        <div class="container">
+            <div class="row vertical-margin col-md-8 text-center">
                 <h2>Create New Album</h2>
             </div>
             <div class="row">
-                <div class="col-sm-10">
+                <div class="col-md-10">
                     <p>Welcome <?php print $user->getName(); ?>! (not you? Change <a href="Login.php"> user </a>here)</p>
                 </div>
             </div>
-            <br><br>
+           
                     <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <div class="form-group">
-                            <div class="col-sm-2">
+                            <div class="col-md-2">
                                 <label class="control-label" for="title">Title: </label>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-md-4">
                                 <input type="text" class="form-control" id="title" name="title" 
                                        value="<?php print $title ?>"/><span style="color:red"><?php print $error ?></span>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-2">
+                            <div class="col-md-2">
                                 <label class="control-label" for="accessibility">Accessibility: </label>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-md-4">
                                 <select class="form-control" id="accessibility" name="accessibility">
 <?php
 foreach ($access as $accessType) {
@@ -83,16 +84,16 @@ foreach ($access as $accessType) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-2">
+                            <div class="col-md-2">
                                 <label class="control-label" for="description">Description: </label>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-md-4">
                                 <textarea type="text" rows="7" class="form-control" id="description" name="description"></textarea>
 
 
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-md-6 text-right">
                             <input class="btn btn-primary" type = "submit" name="btnSubmit" value = "Submit" class="button" />
                             <button class="btn btn-primary" type="reset" name="btnClear" value="Reset" class="button">Clear</button>
                         </div>

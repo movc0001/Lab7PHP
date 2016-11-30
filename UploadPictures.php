@@ -40,7 +40,7 @@
             else
             {
                 $userId = $user->getUserId();
-                $album = $user->getAlbums()[$selectedAlbumId];
+                $albums = $user->getAlbums()[$selectedAlbumId];
                 $selectedAlbumId = $album->getAlbumId();
                 for($i = 0; $i< $numFiles; $i++)
                 {
