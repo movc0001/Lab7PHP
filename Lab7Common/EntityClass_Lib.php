@@ -143,6 +143,7 @@ class Album {
         //$this->ownerId = $ownerId;
         $this->accessibility_code = $accessibility_code;
         $this->pictures = array();
+        $this->albumId = $albumId;
     }
 
     function getTitle() {

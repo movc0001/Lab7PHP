@@ -41,10 +41,11 @@ class DataAccessObject {
             $dateUpdated = DateTime::createFromFormat('Y-m-d G:i:s',$row['Date_Updated']);
             //$album = new Album($row['Title'], $row['Description'], $row['Accessibility_Code'],$row['Album_Id'], $dateUpdated);
             $album = new Album($row['Title'], $row['Description'], $dateUpdated, $row['Accessibility_Code'], $row['Album_Id']);
-            $this->getPicturesForAlbum($album);
+//            $this->getPicturesForAlbum($album);
             $albums[$album->getAlbumId()] = $album;
         }
         $user->setAlbums($albums);
+        return $albums;
     }
     
     public function updateAlbumAccessibillity($album , $newAccessibillityCode)
