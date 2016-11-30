@@ -42,6 +42,8 @@
                 $album = new Album($title, $description, $date_updated, $accessibility_code, $albumId = null);
 
                 $dao->saveAlbum($user, $album);
+                header("Location: UploadPictures.php");
+                
             }
         }
         ?>
