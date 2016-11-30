@@ -40,15 +40,15 @@
         ?>
 
         <div class="container">
-            <div class="row vertical-margin text-center">
+            <div class="row vertical-margin text-center col-md-10">
                 <h2>My Albums</h2>
             </div>
             <div class="row vertical-margin">
-                <div class="col-md-3">
+                <div class="col-md-10">
                     <p>Welcome <?php print $user->getName(); ?>! (not you? Change <a href="Login.php"> user </a>here)</p>
                 </div>
             </div>
-            <div class="row vertical-margin col-md-8 text-right">
+            <div class="row vertical-margin col-md-10 text-right">
                 <p><a href="AddAlbum.php">Create a New Album</a></p>
             </div>
             <div class="row vertical-margin">
@@ -104,7 +104,7 @@ foreach ($accessibility as $accessType) {
                         </table>
                 </div>
                 </div>
-            <div class="col-sm-6">
+            <div class="col-md-10 text-right ">
                     <input class="btn btn-primary" type = "submit" name="btnSave" value = "Save Changes" class="button" />
             </div>
             </form>
