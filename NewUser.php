@@ -93,14 +93,14 @@
         }
         ?>
 
-        <div class="container-fluid">
+        <div class="container">
             <div class="row vertical-margin">
-                <div class="col-md-12">
+                <div class="col-md-10">
                     <h2 class="text-left">Sign Up</h2>
                 </div>          
             </div>
             <div class="row vertical-margin">
-                <div class="col-md-12">
+                <div class="col-md-10">
                     <p>All fields are required</p>
                 </div>          
             </div>
@@ -108,45 +108,45 @@
             <br/>
             <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="id">User ID:</label>
-                    <div class="col-sm-4">
+                    <label class="control-label col-md-2" for="id">User ID:</label>
+                    <div class="col-md-4">
                         <input type="text" class="form-control" id="id" name="id" 
                                value="<?php print $userId ?>"/><span style="color:red"><?php print $userIdValidateError ?></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="name">Name:</label>
-                    <div class="col-sm-4">
+                    <label class="control-label col-md-2" for="name">Name:</label>
+                    <div class="col-md-4">
                         <input type="text" class="form-control" id="name" name="name" 
                                value="<?php print $userName ?>"/><span style="color:red"><?php print $nameValidateError ?></span>
                     </div>
                 </div>
                 <div class="form-group" >
-                    <label class="control-label col-sm-2" for="phone">Phone Number: </label>
-                    <div class="col-sm-4">
+                    <label class="control-label col-md-2" for="phone">Phone Number: </label>
+                    <div class="col-md-4">
                         <input class="form-control col-sm-4" type="text" id="phone" name="phone" 
                                value="<?php print $phone ?>"/><span style="color:red"><?php print $phoneValidateError ?></span>
                     </div>
 
                 </div>
                 <div class="form-group" >
-                    <label class="control-label col-sm-2" for="password" >Password: </label>  
+                    <label class="control-label col-md-2" for="password" >Password: </label>  
                     <div class="col-sm-4">
-                        <input class="form-control col-sm-4" type="password" id="password" name="password" value="<?php print $pass ?>"><span style="color:red"><?php print $passValidateError ?></span>  
+                        <input class="form-control col-md-4" type="password" id="password" name="password" value="<?php print $pass ?>"><span style="color:red"><?php print $passValidateError ?></span>  
                     </div> 
 
                 </div>
 
                 <div class="form-group" >
-                    <label class="control-label col-sm-2" for="passwordAgain" >Password Again: </label>  
+                    <label class="control-label col-md-2" for="passwordAgain" >Password Again: </label>  
                     <div class="col-sm-4">
-                        <input class="form-control col-sm-4" type="password" id="passwordAgain" name="passwordAgain" value="<?php print $passAgain ?>"><span style="color:red"><?php print $passAgainValidateError ?></span>  
+                        <input class="form-control col-md-4" type="password" id="passwordAgain" name="passwordAgain" value="<?php print $passAgain ?>"><span style="color:red"><?php print $passAgainValidateError ?></span>  
                     </div> 
 
                 </div>
                 <br/>
 
-                <div class="col-sm-6">
+                <div class="col-md-6 text-right">
                     <input class="btn btn-primary" type = "submit" name="btnSubmit" value = "Submit" class="button" />
                     <button class="btn btn-primary" type="reset" name="btnClear" value="Reset" class="button">Clear</button>
                 </div>
