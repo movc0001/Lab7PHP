@@ -30,6 +30,8 @@
         $user = $_SESSION["user"];
         
         extract($_POST);
+        
+        
         $albums = $dao->getAlbumsForUser($user);
         if(isset($btnUpload))
         {
@@ -43,7 +45,8 @@
                 $userId = $user->getUserId();
                 //$albums = $user->getAlbums()[$selectedAlbumId];
                 
-                $selectedAlbumId = $album->getAlbumId();
+                //$selectedAlbumId = $album->getAlbumId();
+                $selectedAlbumId = $_POST['sltAlbum'];
                 for($i = 0; $i< $numFiles; $i++)
                 {
                     if($_FILES['txtUpload']['error'][$i] == 0)
@@ -79,7 +82,7 @@
             </div>
 
             <br/>
-            <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
+            <form class="form-horizontal" name="uploadpictures" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="sltAlbum">Upload to Album:</label>
                     <div class="row vertical-margin">
@@ -87,18 +90,22 @@
                         
                         <!-- -------------- Needs to be changed ---------------- -->
                         
-                        <select name="sltAlbum" class="form-control" onchange="onSemesterChanged()"> 
+                        <select name="sltAlbum" class="form-control" > 
 
                             <?php
                             foreach ($albums as $album) {
                                 $albumTitle = $album->getTitle();
                                 $albumId = $album->getAlbumId();
                                 
-                                print '<option value="$albumId">'.$albumTitle.'</option>';
+                                
+                                
+                                print "<option value='$albumId'>$albumTitle</option>";
+                        
+                                    
                             }
                             ?>
                         </select>
-                        <input type="hidden" id="semesterChangedFlag" name="semesterChangedFlag" value="" />
+                        
                     </div>
                 </div>
                 </div>
