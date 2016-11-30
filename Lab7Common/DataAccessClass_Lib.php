@@ -32,14 +32,15 @@ class DataAccessObject {
     public function getAlbumsForUser($user)
     {
         $albums = array();
-        $sql = "SELECT Album_Id, Title, Description, Date_Updated, Accessibility_Code "
+        $sql = "SELECT Title, Description, Date_Updated, Accessibility_Code, Album_Id "
                 . "FROM Album WHERE Owner_Id = :userId";
         
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $user->getUserId()]);
         foreach ($stmt as $row){
             $dateUpdated = DateTime::createFromFormat('Y-m-d G:i:s',$row['Date_Updated']);
-            $album = new Album($row['Title'], $row['Description'], $row['Accessibility_Code'],$row['Album_Id'], $dateUpdated);
+            //$album = new Album($row['Title'], $row['Description'], $row['Accessibility_Code'],$row['Album_Id'], $dateUpdated);
+            $album = new Album($row['Title'], $row['Description'], $dateUpdated, $row['Accessibility_Code'], $row['Album_Id']);
             $this->getPicturesForAlbum($album);
             $albums[$album->getAlbumId()] = $album;
         }
@@ -228,11 +229,12 @@ class DataAccessObject {
     
     public function getAllAlbums() {
         $albums = array();
-        $sql='SELECT Title, Description, Date_Updated, Accessibility_Code, Owner_Id FROM Album';
+        $sql='SELECT Title, Description, Date_Updated, Accessibility_Code, Album_Id FROM Album';
         $stmt = $this->pdo->prepare($sql);
          $stmt->execute();
         foreach ($stmt as $row) {
-            $album = new Album($row['Title'], $row['Description'], $row['Date_Updated'], $row[Owner_Id], $row['Accessibility_Code']);
+            //$album = new Album($row['Title'], $row['Description'], $row['Date_Updated'], $row[Owner_Id], $row['Accessibility_Code']);
+            $album = new Album($row['Title'], $row['Description'], $row['Date_Updated'], $row['Accessibility_Code'], $row['Album_Id']);
             $albums[] = $album;
         }
         return $albums;

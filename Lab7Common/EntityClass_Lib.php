@@ -136,7 +136,7 @@ class Album {
     private $accessibility_code;
     private $pictures;
 
-    function __construct($title, $description, $date_updated, $accessibility_code, $albumId = null) {
+    function __construct($title, $description, $date_updated, $accessibility_code, $albumId) {
         $this->title = $title;
         $this->description = $description;
         $this->date_updated = $date_updated;
@@ -168,7 +168,11 @@ class Album {
     function getPictures() {
         return $this->pictures;
     }
+    public function setPictures($pictures) {
+        $this->pictures = $pictures;
+    }
 
+    
     function getDate_Updated() {
         return $this->date_updated;
     }

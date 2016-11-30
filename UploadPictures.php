@@ -18,6 +18,7 @@
         include './Lab7Common/Footer.php';
         
         session_start();
+        $dao = new DataAccessObject(INI_FILE_PATH);
         if(!isset($_SESSION["user"]))
         {
             $_SESSION["rurl"] = "UploadPictures.php";
@@ -29,7 +30,7 @@
         $user = $_SESSION["user"];
         
         extract($_POST);
-        
+        $albums = $dao->getAlbumsForUser($user);
         if(isset($btnUpload))
         {
             $numFiles = sizeof($_FILES['txtUpload']['error']);
@@ -40,7 +41,8 @@
             else
             {
                 $userId = $user->getUserId();
-                $albums = $user->getAlbums()[$selectedAlbumId];
+                //$albums = $user->getAlbums()[$selectedAlbumId];
+                
                 $selectedAlbumId = $album->getAlbumId();
                 for($i = 0; $i< $numFiles; $i++)
                 {
@@ -90,6 +92,9 @@
                             <?php
                             foreach ($albums as $album) {
                                 $albumTitle = $album->getTitle();
+                                $albumId = $album->getAlbumId();
+                                
+                                print '<option value="$albumId">'.$albumTitle.'</option>';
                             }
                             ?>
                         </select>
