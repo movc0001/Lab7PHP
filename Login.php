@@ -63,7 +63,7 @@
              header("Location: AddAlbum.php");
              exit();
         }
-        header("Location: AddAlbum.php");
+        header("Location: MyAlbums.php");
         exit();
 
         }

@@ -34,12 +34,21 @@ class User {
         $this->userId = $userId;
         $this->name = $name;
         $this->phone = $phone;
+        
+        $this->albums = array();
+        $this->friends = array();
+        $this->friendrequesters = array();
     }
 
     function getUserId() {
         return $this->userId;
     }
+    
+    public function setUserId($userId) {
+        $this->userId = $userId;
+    }
 
+    
     function getName() {
         return $this->name;
     }
@@ -105,6 +114,10 @@ class User {
     function isRequestedBy($userId) {
         
     }
+    
+    public function addAlbum($album) {
+        $this->getAlbums()[] = $album;
+    }
 
 }
 
@@ -162,10 +175,13 @@ class Album {
     function getOwner_id() {
         return $this->owner_id;
     }
-
-    function getAccessibility_code() {
+    
+    public function getAccessibility_code() {
         return $this->accessibility_code;
     }
+
+    
+  
 
     //public function _toString();
 }

@@ -19,7 +19,7 @@
         $dao = new DataAccessObject(INI_FILE_PATH);
         if (!isset($_SESSION['user'])) {
             $_SESSION['rurl'] = "MyAlbums.php";
-            header("Location : Login.php");
+            header("Location:Login.php");
             exit();
         }
         extract($_POST);
@@ -34,7 +34,7 @@
             $_SESSION['accessibility'] = $accessibility;
         }
         
-        $albums = $dao->getAllAlbums();
+        $albums = $dao->getAlbumsForUser($user);
         
         
         ?>
