@@ -169,9 +169,7 @@ class Album {
     function getPictures() {
         return $this->pictures;
     }
-    public function setPictures($pictures) {
-        $this->pictures = $pictures;
-    }
+  
 
     
     function getDate_Updated() {
