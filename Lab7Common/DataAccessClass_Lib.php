@@ -74,7 +74,7 @@ class DataAccessObject {
         $dateUpdated = $album->getDate_Updated();  //->format('Y-m-d G:i:s');
         $sql = "INSERT INTO Album (Title, Description, Owner_Id, Date_Updated, Accessibility_Code) VALUES( :title, :description, :userId, :dateUpdated, :accessibilityCode)";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['title'=>$album->getTitle(), 'description'=>$album->getDescription(), 'userId' => $user->getUserId(), 'dateUpdated' => $dateUpdated,'accessibility_code'=>$album->getAccessibilityCode(), 'owner_id'=>$album->getOwnerId()]);
+        $stmt->execute(['title'=>$album->getTitle(), 'description'=>$album->getDescription(), 'userId' => $user->getUserId(), 'dateUpdated' => $dateUpdated,'accessibilityCode'=>$album->getAccessibility_code()]);
         
         $albumId = $this->pdo->lastInsertId();
         $album->setAlbumId($albumId);
@@ -102,10 +102,10 @@ class DataAccessObject {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $userId, 'name' => $name, 'phone' => $phone, 'password' => $password]); 
        
-        $user->setUserId($userId);
-        $user->setName($name);
-        $user->setPhone($phone);
-        $user->setPassword($password);
+//        $user->setUserId($userId);
+//        $user->setName($name);
+//        $user->setPhone($phone);
+//        $user->setPassword($password);
         
         
         

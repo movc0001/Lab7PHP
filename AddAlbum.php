@@ -22,7 +22,7 @@
             header("Location: Login.php");
             exit();
         }
-        $description;
+        $description='';
         extract($_POST);
         $user = $_SESSION["user"];
         $error = "";
