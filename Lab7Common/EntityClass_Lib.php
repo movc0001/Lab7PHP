@@ -189,8 +189,11 @@ class Album {
         return $this->accessibility_code;
     }
 
-    
-  
+    function setPictures($pictures) {
+        $this->pictures = $pictures;
+    }
+
+      
 
     //public function _toString();
 }

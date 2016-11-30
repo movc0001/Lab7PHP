@@ -61,12 +61,11 @@
                                 <th>Accessibility</th>
                             </tr>
             <?php
-for ($i=0; $i<count($albums); $i++){
+                                for ($i=0; $i < count($albums); $i++){
                                     $title = $albums[$i]->getTitle();
                                     $date = $albums[$i]->getDate_updated();
                                     $numOfPics = 0;
                                     $access = $albums[$i]->getAccessibility_code();
-                                    
                                     
                                     ?>
                             
