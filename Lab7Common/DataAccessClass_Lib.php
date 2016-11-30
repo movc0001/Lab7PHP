@@ -102,10 +102,7 @@ class DataAccessObject {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $userId, 'name' => $name, 'phone' => $phone, 'password' => $password]); 
        
-//        $user->setUserId($userId);
-//        $user->setName($name);
-//        $user->setPhone($phone);
-//        $user->setPassword($password);
+      $user->setPassword($password);
         
         
         
