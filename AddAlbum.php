@@ -40,6 +40,7 @@
                 //$owner_id = $user->getUserId();
                 $accessibility_code = $accessibility;
                 $album = new Album($title, $description, $date_updated, $accessibility_code, $albumId = null);
+                $_SESSION['album']= $album;
 
                 $dao->saveAlbum($user, $album);
                 header("Location: UploadPictures.php");
