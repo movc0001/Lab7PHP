@@ -174,8 +174,13 @@ class DataAccessObject {
 
     public function getFriendsForUser($user) //not done
     {
+        
         $sql = "SELECT Friend_RequesteeId FROM Friendship "
                 . "WHERE Friend_RequesterId = :userId AND Status = 'accepted'";
+        
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['userId' => $user->getUserId()]);
+        // //// neeeeds to be done ----------------
 				
 	$sql = "SELECT Friend_RequesterId FROM Friendship "
                 . "WHERE Friend_RequesteeId = :userId AND Status = 'accepted'";
