@@ -94,10 +94,7 @@ class DataAccessObject {
         $sql = "INSERT INTO User VALUES( :userId, :name, :phone, :password)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $userId, 'name' => $name, 'phone' => $phone, 'password' => $password]); 
-       
-          
-        
-        
+  
     }
     
     public function saveComment($picture,$comment)
@@ -192,7 +189,12 @@ class DataAccessObject {
 
     public function saveFriendRequest($user, $request) //not done
     {
+        //copied from his sql statements
         $sql = "INSERT INTO Friendship VALUES( :userId, :requesteeId, 'request')";
+        
+        $stmt = $this->pdo->prepare($sql);
+        
+        //$stmt->execute(['userId' => $user, 'requesteeId' => $name, 'request' => $phone]); 
     }
     
      public function userExists($userId) {
