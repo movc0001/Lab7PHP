@@ -14,9 +14,8 @@ function save_uploaded_file($destinationPath, $upLoadFileIndex = -1)
     }
     else
     {
-        $tempFilePath = $_FILES['txtUpload']['tmp_name'][$upLoadFileIndex];
-//        $filePath = $destinationPath."/".$_FILES['txtUpload']['name'][$upLoadFileIndex];
-        $filePath = $destinationPath."/".$_FILES['txtUpload']['name'];
+        $tempFilePath = $_FILES['txtUpload']['tmp_name'][$upLoadFileIndex];   
+        $filePath = $destinationPath."/".$_FILES['txtUpload']['name'][$upLoadFileIndex];
     }
     
     $pathInfo = pathinfo($filePath);

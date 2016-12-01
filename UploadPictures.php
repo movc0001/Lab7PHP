@@ -14,57 +14,53 @@
         include_once "./Lab7Common/DataAccessClass_Lib.php";
         include "./Lab7Common/Function_Lib.php";
         include "./Lab7Common/ImageFunction_Lib.php";
-      
+
         include './Lab7Common/Footer.php';
-        
+
         session_start();
         $dao = new DataAccessObject(INI_FILE_PATH);
-        if(!isset($_SESSION["user"]))
-        {
+        if (!isset($_SESSION["user"])) {
             $_SESSION["rurl"] = "UploadPictures.php";
 //            header("Location:Login.php");
-    header("Location: Login.php");
+            header("Location: Login.php");
             exit();
         }
-        
+
         $user = $_SESSION["user"];
-        
+
         extract($_POST);
-        
-        
-        $albums = $dao->getAlbumsForUser($user);
-        if(isset($btnUpload))
-        {
+                $albums = $dao->getAlbumsForUser($user);
+
+        if (isset($_SESSION['album'])) {
+            $selectedAlbum = $_SESSION['album'];
+        }
+        else{
+            $selectedAlbum = $albums[0];
+        }
+
+
+        if (isset($btnUpload)) {
             $numFiles = sizeof($_FILES['txtUpload']['error']);
-            if($numFiles == 0)
-            {
+            if ($numFiles == 0) {
                 $message = "No upload file specified";
-            }
-            else
-            {
+            } else {
                 $userId = $user->getUserId();
                 //$albums = $user->getAlbums()[$selectedAlbumId];
-                
                 //$selectedAlbumId = $album->getAlbumId();
                 $selectedAlbumId = $_POST['sltAlbum'];
-                for($i = 0; $i< $numFiles; $i++)
-                {
-                    if($_FILES['txtUpload']['error'][$i] == 0)
-                    {
-                        $filePath = save_uploaded_file(ORIGINAL_PICTURES_DIR."/$userId/$selectedAlbumId", $i);
-                        
+                for ($i = 0; $i < $numFiles; $i++) {
+                    if ($_FILES['txtUpload']['error'][$i] == 0) {
+                        $filePath = save_uploaded_file(ORIGINAL_PICTURES_DIR . "/$userId/$selectedAlbumId", $i);
+
                         $imageDetails = getimagesize($filePath);
-                        
-                        if($imageDetails && in_array($imageDetails, $supportedImageTypes))
-                        {
-                            $imageFilePath = resamplePicture(ALBUM_PICTURES_DIR."/$userId/$selectedAlbumId", $i);
+
+                        if ($imageDetails && in_array($imageDetails, $supportedImageTypes)) {
+                            $imageFilePath = resamplePicture(ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId", $i);
                         }
                     }
                 }
             }
-            
         }
-        
         ?>
 
         <div class="container-fluid">
@@ -86,33 +82,34 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="sltAlbum">Upload to Album:</label>
                     <div class="row vertical-margin">
-                    <div class="col-md-3 text-center">
-                        
-                        <!-- -------------- Needs to be changed ---------------- -->
-                        
-                        <select name="sltAlbum" class="form-control" > 
+                        <div class="col-md-3 text-center">
 
-                            <?php
-                            foreach ($albums as $album) {
-                                $albumTitle = $album->getTitle();
-                                $albumId = $album->getAlbumId();
-                                
-                                
-                                
-                                print "<option value='$albumId'>$albumTitle</option>";
-                        
-                                    
-                            }
-                            ?>
-                        </select>
-                        
+                            <!-- -------------- Needs to be changed ---------------- -->
+
+                            <select name="sltAlbum" class="form-control" >
+                                <option value="<?php $selectedAlbum->getAlbumId(); ?>"><?php print $selectedAlbum->getTitle(); ?></option>
+
+<?php
+foreach ($albums as $album) {
+    $albumTitle = $album->getTitle();
+    $albumId = $album->getAlbumId();
+    
+    
+    if ($album != $selectedAlbum) {
+    
+        print "<option value='$albumId'>$albumTitle</option>";
+    }
+}
+?>
+                            </select>
+
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="txtUpload">File to Upload:</label>
                     <div class="col-sm-4">
-                        <input type="file" name="txtUpload" size="40"/>
+                        <input type="file" name="txtUpload[]" size="40"/>
                         <span style="color:red"><?php print $txtUploadValidateError ?></span>
                     </div>
                 </div>
@@ -142,8 +139,8 @@
 
         </div>
 
-        
+
     </body>
 </html>
 
-        
+
