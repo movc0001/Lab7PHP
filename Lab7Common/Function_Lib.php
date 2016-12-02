@@ -76,5 +76,28 @@ function validatePasswordAgain($passAgain)
     }
     return "";
 }
+
+function IsLoggedIn()
+{
+    if(isset($_SESSION['id']) && isset($_SESSION['pass']))
+    {
+        $userName = $_SESSION['id'];
+        $password = $_SESSION['pass'];
+        
+        if (CheckUserAndPassword($userName, $password))
+        {
+            echo "<li><a href='Logout.php'>Log Out</a></li>";
+        }
+        else
+    {
+        echo "<li><a href='Login.php'>Log In</a></li>";
+    }
+    
+    }
+    else
+    {
+        echo "<li><a href='Login.php'>Log In</a></li>";
+    }
+}
    
 ?>
