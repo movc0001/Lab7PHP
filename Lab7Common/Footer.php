@@ -8,8 +8,8 @@
                  </p>
             	</div>
         </footer>
-       <script src="/Lab7/Lab7Scripts/Site.js" type="text/javascript"></script>
-       <script src="./Scripts/jquery-2.2.4.min.js" type="text/javascript"></script>
+       <!-- <script src="./Lab7Scripts/Site.js" type="text/javascript"></script> -->
+       <script src="./Lab7Scripts/jquery-2.2.4.min.js" type="text/javascript"></script>
        <script src="./Lab7Contents/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>
