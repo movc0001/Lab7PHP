@@ -43,6 +43,7 @@
                 $_SESSION['album']= $album;
 
                 $dao->saveAlbum($user, $album);
+                //$user->getAlbums()[] = $album;
                 header("Location: UploadPictures.php");
                 
             }
