@@ -87,7 +87,7 @@
                             <!-- -------------- Needs to be changed ---------------- -->
 
                             <select name="sltAlbum" class="form-control" >
-                                <option value="<?php $selectedAlbum->getAlbumId(); ?>"><?php print $selectedAlbum->getTitle(); ?></option>
+                                <option value="<?php print $selectedAlbum->getAlbumId(); ?>"><?php print $selectedAlbum->getTitle(); ?></option>
 
 <?php
 foreach ($albums as $album) {
@@ -95,7 +95,7 @@ foreach ($albums as $album) {
     $albumId = $album->getAlbumId();
     
     
-    if ($album != $selectedAlbum) {
+    if ($album->getAlbumId() != $selectedAlbum->getAlbumId()) {
     
         print "<option value='$albumId'>$albumTitle</option>";
     }
