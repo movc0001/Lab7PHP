@@ -40,24 +40,43 @@
 
 
         if (isset($btnUpload)) {
+            
+            extract($_POST);
+         
             $numFiles = sizeof($_FILES['txtUpload']['error']);
             if ($numFiles == 0) {
                 $message = "No upload file specified";
             } else {
                 $userId = $user->getUserId();
-                //$albums = $user->getAlbums()[$selectedAlbumId];
-                //$selectedAlbumId = $album->getAlbumId();
+                
+                
+                
                 $selectedAlbumId = $_POST['sltAlbum'];
+                
+                foreach($albums as $album){
+                    if($album->getAlbumId() ===$selectedAlbumId ){
+                        $selectdAlbum = $album;
+                    }
+                }
+                
+                
+                
                 for ($i = 0; $i < $numFiles; $i++) {
                     if ($_FILES['txtUpload']['error'][$i] == 0) {
                         $filePath = save_uploaded_file(ORIGINAL_PICTURES_DIR . "/$userId/$selectedAlbumId", $i);
 
                         $imageDetails = getimagesize($filePath);
+                        $fileName = $_FILES['txtUpload']['name'][0];
+                        $pic = new Picture($title, $description, $fileName, $pictureId);
+                        $dao->savePicture($selectedAlbumId, $pic);
+                        $selectdAlbum->getPictures()[] = $pic;
+                        
 
                         if ($imageDetails && in_array($imageDetails, $supportedImageTypes)) {
                             $imageFilePath = resamplePicture(ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId", $i);
                         }
                     }
+                    
                 }
             }
         }
@@ -116,7 +135,7 @@ foreach ($albums as $album) {
                 <div class="form-group" >
                     <label class="control-label col-sm-2" for="title">Title: </label>
                     <div class="col-sm-4">
-                        <input class="form-control col-sm-4" type="text" id="title" name="phone" 
+                        <input class="form-control col-sm-4" type="text" id="title" name="title" 
                                value="<?php print $title ?>"/><span style="color:red"><?php print $titleValidateError ?></span>
                     </div>
 
@@ -124,7 +143,7 @@ foreach ($albums as $album) {
                 <div class="form-group" >
                     <label class="control-label col-sm-2" for="description" >Description: </label>  
                     <div class="col-sm-4">
-                        <textarea class="form-control" rows="5" id="description"></textarea><span style="color:red"><?php print $descriptionValidateError ?></span>  
+                        <textarea class="form-control" rows="5" id="description" name="description"></textarea><span style="color:red"><?php print $descriptionValidateError ?></span>  
                     </div> 
 
                 </div>

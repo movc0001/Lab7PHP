@@ -18,25 +18,23 @@
         session_start();
         $dao = new DataAccessObject(INI_FILE_PATH);
         if (!isset($_SESSION['user'])) {
-            $_SESSION['rurl'] = "MyAlbums.php";
-            header("Location:Login.php");
-            exit();
+        $_SESSION['rurl'] = "MyAlbums.php";
+        header("Location:Login.php");
+        exit();
         }
         extract($_POST);
         $user = $_SESSION["user"];
         $error = "";
-        
+
         if (isset($_SESSION['accessibility'])){
-            $accessibility = $_SESSION['accessibility'];
+        $accessibility = $_SESSION['accessibility'];
         }
         else{
-            $accessibility = $dao->getAccebility();
-            $_SESSION['accessibility'] = $accessibility;
+        $accessibility = $dao->getAccebility();
+        $_SESSION['accessibility'] = $accessibility;
         }
-        
+
         $albums = $dao->getAlbumsForUser($user);
-        
-        
         ?>
 
         <div class="container">
@@ -52,70 +50,68 @@
                 <p><a href="AddAlbum.php">Create a New Album</a></p>
             </div>
             <div class="row vertical-margin">
-                    <div class="col-md-12">
-                        <table class="table">
-                            <tr>
-                                <th>Title</th>
-                                <th>Date Updated</th>
-                                <th>Number of Pictures</th>
-                                <th>Accessibility</th>
-                            </tr>
-            <?php
-                                for ($i=0; $i < count($albums); $i++){
-                                    $title = $albums[$i]->getTitle();
-                                    $date = $albums[$i]->getDate_updated();
-                                    $numOfPics = 0;
-                                    $access = $albums[$i]->getAccessibility_code();
-                                    
-                                    ?>
-                            
-                            <tr>
-                                <td><a href="MyPictures.php"><?php print $title; ?></a></td>
-                                <td><?php print $date; ?></td>
-                                <td><?php print $numOfPics ?></td>
-                                <td><select class="form-control">
-                                        <option selected value="<?php $access ?>"><?php print $access; ?></option>
-                                        <?php
+                <div class="col-md-12">
+                    <table class="table">
+                        <tr>
+                            <th>Title</th>
+                            <th>Date Updated</th>
+                            <th>Number of Pictures</th>
+                            <th>Accessibility</th>
+                        </tr>
+<?php
+
+foreach($albums as $album){
+$title = $album->getTitle();
+$date = $album->getDate_updated();
+$numOfPics = sizeof($album->getPictures());
+$access = $album->getAccessibility_code();
+
+
+
+?>
+
+                        <tr>
+                            <td><a href="MyPictures.php"><?php print $title; ?></a></td>
+                            <td><?php print $date; ?></td>
+                            <td><?php print $numOfPics ?></td>
+                            <td><select class="form-control" name="alumAccessibility[]">
+                                    <option selected value="<?php $access ?>"><?php print $access; ?></option>
+<?php
 foreach ($accessibility as $accessType) {
-    $description = $accessType->getDescription();
-    $code = $accessType->getAccessibilityCode();
-    if($code != $access){
-       print "<option value='$code'> $description </option>"; 
-    }
-    
+$description = $accessType->getDescription();
+$code = $accessType->getAccessibilityCode();
+if($code != $access){
+print "<option value='$code'> $description </option>";
+}
+}
+
+?>
+                                </select></td>
+
+                        </tr>
+
+<?php
+//                                    print '<tr><td><a href="MyPictures.php"'. $title.'</a></td><td>'.$date.'</td><td>'.$numOfPics.'</td><td>'.$access.'</td></tr>';
+
 }
 ?>
-                                    </select></td>
-                                
-                            </tr>
-                           
- <?php
-//                                    print '<tr><td><a href="MyPictures.php"'. $title.'</a></td><td>'.$date.'</td><td>'.$numOfPics.'</td><td>'.$access.'</td></tr>';
-                                    
-                                }
-                                    
-                        
-                        
-                        
-                        
-                        ?>
-                    
-                        </table>
+
+                    </table>
                 </div>
-                </div>
+            </div>
             <div class="col-md-10 text-right ">
-                    <input class="btn btn-primary" type = "submit" name="btnSave" value = "Save Changes" class="button" />
+                <input class="btn btn-primary" type = "submit" name="btnSave" value = "Save Changes" class="button" />
             </div>
             </form>
-            
-               
-                    
-                        
-                       
-                        
-                    
 
-            </div>
+
+
+
+
+
+
+
+        </div>
 
 
 
@@ -131,6 +127,6 @@ foreach ($accessibility as $accessType) {
     </body>
 </html>
 
-        <?php
-        include './Lab7Common/Footer.php';
-        ?>
+<?php
+include './Lab7Common/Footer.php';
+?>

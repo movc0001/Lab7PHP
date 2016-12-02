@@ -126,7 +126,8 @@ class User {
     }
     
     public function addAlbum($album) {
-        $this->getAlbums()[] = $album;
+        $albums = $this->getAlbums();
+        $albums[] = $album;
     }
 
 }
@@ -211,12 +212,45 @@ class Picture {
     private $fileName;
     private $comments;
 
-    function __construct($pictureId, $title, $description, $fileName) {
+    function __construct($title, $description, $fileName, $pictureId) {
         $this->pictureId = $pictureId;
         $this->title = $title;
         $this->description = $description;
         $this->fileName = $fileName;
+        
+        $this->comments = array();
+        $this->dateUploaded = date('Y-m-d\TH:i:s');
     }
+    
+    public function getPictureId() {
+        return $this->pictureId;
+    }
+    public function setPictureId($pictureId) {
+        $this->pictureId = $pictureId;
+    }
+
+        public function getTitle() {
+        return $this->title;
+    }
+
+    public function getDescription() {
+        return $this->description;
+    }
+
+    public function getDateUploaded() {
+        return $this->dateUploaded;
+    }
+
+    public function getFileName() {
+        return $this->fileName;
+    }
+
+    public function getComments() {
+        return $this->comments;
+    }
+
+
+    
 
 }
 

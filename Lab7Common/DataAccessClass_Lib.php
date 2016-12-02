@@ -126,9 +126,15 @@ class DataAccessObject {
         $user->setAlbums($albums);
     }
 
-    public function savePicture($album, $picture) //not done
+    public function savePicture($albumId, $picture) //not done
     {
-        $sql = "INSERT INTO Picture (Album_Id, File_Name, Title, Description, Date_Added) VALUES( :albumId, :fileName, :title, :description, :dateAdded)";
+        $sql = "INSERT INTO Picture (Album_Id, FileName, Title, Description, Date_Added) VALUES( :albumId, :fileName, :title, :description, :dateAdded)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['albumId'=>$albumId, 'fileName'=>$picture->getFileName(), 'title'=>$picture->getTitle(), 'description'=>$picture->getDescription(), 'dateAdded'=>$picture->getDateUploaded()]);
+        
+         $pictureId = $this->pdo->lastInsertId();
+        $picture->setPictureId($pictureId );
+        //$user->addAlbum($album);
     }
     
     public function getPicturesForAlbum($album)
