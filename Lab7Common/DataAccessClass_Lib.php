@@ -154,12 +154,17 @@ class DataAccessObject {
 	$sql1 = "DELETE FROM Picture WHERE Picture_Id = :pictureId";
     }
     
-    public function deleteFriend($user, $friendId) //not done
+    public function deleteFriend($user, $friendId) 
     {
         $sql = "DELETE FROM Friendship "
                 . "WHERE ((Friend_RequesterId = :userId AND Friend_RequesteeId= :friendId) "
                 . "  OR (Friend_RequesterId = :friendId AND Friend_RequesteeId= :userId)) "
                 . "    AND Status='accepted'";	
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['userId' => $user->getUserId(), 'friendId' => $friendId]);
+        
+        $friend = $user->getFriends()[$friendId];
+        $user->defriend($friend);
     }
 
     public function denyFriendRequest($user,$requestId) //not done
@@ -169,9 +174,24 @@ class DataAccessObject {
     
     public function acceptAfriendRequest($user, $requestId) //not done
     {
-        $sql = "UPDATE Friendship SET Status = 'accepted' WHERE Friend_RequesterId = :requesterId AND Friend_RequesteeId = :userId";
+        $sql = "UPDATE Friendship SET Status = 'accepted' WHERE Friend_RequesterId = :requesterId AND Friend_RequesterId = :userId";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['requesterId' => $requesterId, 'userId' => $user->getUserId()]);
+        
+        $requester = $user->getFriendRequesters()[$requesterId];
+        $user->acceptRequest($requester);
     }
 
+    public function acceptFriendRequester($user, $requestId)
+    {
+        $sql = "UPDATE Friendship SET Status = 'accepted' WHERE Friend_RequesterId = :requesterId AND Friend_RequesterId = :userId";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['requesterId' => $requesterId, 'userId' => $user->getUserId()]);
+        
+        $requester = $user->getFriendRequesters()[$requesterId];
+        $user->acceptRequest($requester);
+    }
+    
     public function getFriendsForUser($user) //not done
     {
         
@@ -192,14 +212,20 @@ class DataAccessObject {
                 . "WHERE Friend_RequesteeId = :userId AND Status = 'request'";
     }
 
-    public function saveFriendRequest($user, $request) //not done
+    public function saveFriendRequest($user, $requesteeId) 
     {
-        //copied from his sql statements
-        $sql = "INSERT INTO Friendship VALUES( :userId, :requesteeId, 'request')";
+        $requestee = $this->getUserById($requesteeId);
         
+        if($requestee == null)
+        {
+            return FALSE;
+        }
+        
+        $sql = "INSERT INTO Friendship VALUES(:userId, :requesteeId, 'request')";
         $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['userId' => $user->getUserId(), 'requesteeId' => $requesteeId]);
         
-        //$stmt->execute(['userId' => $user, 'requesteeId' => $name, 'request' => $phone]); 
+        return $requestee;
     }
     
      public function userExists($userId) {

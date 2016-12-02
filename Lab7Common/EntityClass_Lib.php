@@ -97,7 +97,7 @@ class User {
     }
 
     function isFriend($userId) {
-        
+        return array_key_exists($userId, $this->friends) ;
     }
 
     function getFriends() {
@@ -115,9 +115,14 @@ class User {
     function setFriendrequesters($friendrequesters) {
         $this->friendrequesters = $friendrequesters;
     }
+    
+    function addFriendRequest($requesteeId)
+    {
+        
+    }
 
     function isRequestedBy($userId) {
-        
+        return array_key_exists($userId, $this->friendrequesters);
     }
     
     public function addAlbum($album) {
