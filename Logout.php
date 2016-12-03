@@ -10,9 +10,20 @@
 
         <?php
         include "./Lab7Common/Header.php";
-        include_once "./Lab7Common/EntityClass_Lib.php";
-        include_once "./Lab7Common/DataAccessClass_Lib.php";
-        include "./Lab7Common/Function_Lib.php";
+        
+        session_start();
+if (isset($_SESSION['usert'])) {
+   session_destroy();
+   echo "<br> <p> you are logged out successufuly!</p>";
+} 
+   echo "<br/><p><a href='Index.php'>login</a></p>";
+        
+        
+        
+        
+        
+        
+        
       
         include './Lab7Common/Footer.php';
         

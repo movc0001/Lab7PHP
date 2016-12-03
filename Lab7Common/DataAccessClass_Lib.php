@@ -37,11 +37,13 @@ class DataAccessObject {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $user->getUserId()]);
         foreach ($stmt as $row) {
-            $dateUpdated = DateTime::createFromFormat('Y-m-d G:i:s', $row['Date_Updated']);
+            //$dateUpdated = DateTime::createFromFormat('Y-m-d G:i:s', $row['Date_Updated']);
             //$album = new Album($row['Title'], $row['Description'], $row['Accessibility_Code'],$row['Album_Id'], $dateUpdated);
-            $album = new Album($row['Title'], $row['Description'], $dateUpdated, $row['Accessibility_Code'], $row['Album_Id']);
-//            $this->getPicturesForAlbum($album);
-            $albums[$album->getAlbumId()] = $album;
+            $album = new Album($row['Title'], $row['Description'], $row['Date_Updated'], $row['Accessibility_Code'], $row['Album_Id']);
+            
+          $this->getPicturesForAlbum($album);
+            //$albums[$album->getAlbumId()] = $album;
+          $albums[]=$album;
         }
         $user->setAlbums($albums);
         return $albums;
@@ -112,7 +114,7 @@ class DataAccessObject {
             $this->getPicturesForAlbum($album);
             $albums[$album->getAlbumId()] = $album;
         }
-        $user->setAlbums($albums);
+        //$user->setAlbums($albums);
     }
 
     public function savePicture($album, $picture) { //not done
@@ -132,15 +134,16 @@ class DataAccessObject {
 
     public function getPicturesForAlbum($album) {
         $pictures = array();
-        $sql = "SELECT Picture_Id, File_Name, Title, Description, Date_Added FROM Picture WHERE Album_Id = :albumId";
+        $sql = "SELECT Picture_Id, FileName, Title, Description, Date_Added FROM Picture WHERE Album_Id = :albumId";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['albumId' => $album->getAlbumId()]);
         foreach ($stmt as $row) {
             $dateUploaded = DateTime::createFromFormat('Y-m-d G:i:s', $row['Date_Updated']);
-            $pictures = new Picture($row['Title'], $row['Description'], $row['FileName'], $dateUploaded);
+            $picture = new Picture($row['Title'], $row['Description'], $row['FileName'], $dateUploaded);
 
             $this->getCommentsForPicture($picture);
-            $pictures[$picture->getPictureId()] = $picture;
+            //$pictures[$picture->getPictureId()] = $picture;
+            $pictures[]= $picture;
         }
         $album->setPictures($pictures);
     }
