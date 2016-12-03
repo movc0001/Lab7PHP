@@ -53,11 +53,13 @@
                 
                 $selectedAlbumId = $_POST['sltAlbum'];
                 
-                foreach($albums as $album){
-                    if($album->getAlbumId() ===$selectedAlbumId ){
-                        $selectdAlbum = $album;
-                    }
-                }
+                $album=$user->getAlbumById($selectedAlbumId);
+                
+//                foreach($albums as $album){
+//                    if($album->getAlbumId() ===$selectedAlbumId ){
+//                        $selectdAlbum = $album;
+//                    }
+//                }
                 
                 
                 
@@ -68,8 +70,11 @@
                         $imageDetails = getimagesize($filePath);
                         $fileName = $_FILES['txtUpload']['name'][0];
                         $pic = new Picture($title, $description, $fileName, $pictureId);
-                        $dao->savePicture($selectedAlbumId, $pic);
-                        $selectdAlbum->getPictures()[] = $pic;
+                        $dao->savePicture($album, $pic);
+//                        $picToAlbum = array();
+//                        $picToAlbum = $selectdAlbum->getPictures();
+//                        $picToAlbum[] = $pic;
+//                        $selectdAlbum->setPictures($picToAlbum );
                         
 
                         if ($imageDetails && in_array($imageDetails, $supportedImageTypes)) {

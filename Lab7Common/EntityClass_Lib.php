@@ -85,6 +85,12 @@ class User {
     }
 
     function getAlbumById($albumId) {
+        foreach($this->getAlbums() as $album){
+            if ($album->getAlbumId() == $albumId){
+                $selectedAlb = $album;
+            }
+            return $selectedAlb;
+        }
         
     }
 
@@ -126,6 +132,7 @@ class User {
     }
     
     public function addAlbum($album) {
+        $albums = array();
         $albums = $this->getAlbums();
         $albums[] = $album;
     }
