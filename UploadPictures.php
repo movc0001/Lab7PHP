@@ -68,8 +68,11 @@
                         $imageDetails = getimagesize($filePath);
                         $fileName = $_FILES['txtUpload']['name'][0];
                         $pic = new Picture($title, $description, $fileName, $pictureId);
-                        $dao->savePicture($selectedAlbumId, $pic);
-                        $selectdAlbum->getPictures()[] = $pic;
+                        $dao->savePicture($selectdAlbum , $pic);
+//                        $picToAlbum = array();
+//                        $picToAlbum = $selectdAlbum->getPictures();
+//                        $picToAlbum[] = $pic;
+//                        $selectdAlbum->setPictures($picToAlbum );
                         
 
                         if ($imageDetails && in_array($imageDetails, $supportedImageTypes)) {

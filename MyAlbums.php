@@ -63,7 +63,7 @@
 foreach($albums as $album){
 $title = $album->getTitle();
 $date = $album->getDate_updated();
-$numOfPics = sizeof($album->getPictures());
+$numOfPics = count($album->getPictures());
 $access = $album->getAccessibility_code();
 
 
