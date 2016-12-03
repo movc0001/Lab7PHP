@@ -123,7 +123,8 @@ class DataAccessObject {
         $pictureId = $this->pdo->lastInsertId();
         $picture->setPictureId($pictureId);
         //$user->addAlbum($album);
-        $picToAlbum = array();
+        //$album = getAlbumById($albumid);
+
         $picToAlbum = $album -> getPictures();
         $picToAlbum[] = $picture;
         $album->setPictures($picToAlbum);
