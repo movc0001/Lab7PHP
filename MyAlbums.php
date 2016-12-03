@@ -66,7 +66,15 @@ foreach($albums as $album){
 $title = $album->getTitle();
 $date = $album->getDate_updated();
 $numOfPics = count($album->getPictures());
-$access = $album->getAccessibility_code();
+$accessCode = $album->getAccessibility_code();
+
+foreach ($accessibility as $anAccebility){
+    if($anAccebility->getAccessibilityCode() == $accessCode ){
+        
+        $accessDescript = $anAccebility->getDescription();
+    }
+}
+
 
 
 
@@ -76,13 +84,13 @@ $access = $album->getAccessibility_code();
                             <td><a href="MyPictures.php"><?php print $title; ?></a></td>
                             <td><?php print $date; ?></td>
                             <td><?php print $numOfPics ?></td>
-                            <td><select class="form-control" name="alumAccessibility[]">
-                                    <option selected value="<?php $access ?>"><?php print $access; ?></option>
+                            <td><select class="form-control" name="drpAccessibility[]">
+                                    <option selected value="<?php $accessCode ?>"><?php print $accessDescript; ?></option>
 <?php
 foreach ($accessibility as $accessType) {
 $description = $accessType->getDescription();
 $code = $accessType->getAccessibilityCode();
-if($code != $access){
+if($code != $accessCode){
 print "<option value='$code'> $description </option>";
 }
 }

@@ -71,6 +71,10 @@
                         $fileName = $_FILES['txtUpload']['name'][0];
                         $pic = new Picture($title, $description, $fileName, $pictureId);
                         $dao->savePicture($album, $pic);
+                        $album->setPictures($pic);
+                        
+                        
+                        
 //                        $picToAlbum = array();
 //                        $picToAlbum = $selectdAlbum->getPictures();
 //                        $picToAlbum[] = $pic;
