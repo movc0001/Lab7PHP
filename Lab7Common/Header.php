@@ -33,7 +33,19 @@
                <li class="active"><a href="MyAlbums.php">My Albums </a></li> 
                <li class="active"><a href="MyPictures.php">My Pictures </a></li> 
                <li class="active"><a href="UploadPictures.php">Upload Pictures </a></li> 
-               <li class="active"><a href="Login.php">Login </a></li> 
+               <?php
+                    include_once "./Lab7Common/DataAccessClass_Lib.php";
+                    
+                    if(session_status() !== PHP_SESSION_ACTIVE){
+                        session_start();
+                    }
+                    
+                    if(isset($_SESSION['user'])){
+                        print '<li class="active"><a href="Logout.php">Log out</a></li>';
+                    }else{
+                        print '<li class="active"><a href="Login.php">Log in</a></li>';
+                    }
+               ?>
                
             </ul>
         </div>
