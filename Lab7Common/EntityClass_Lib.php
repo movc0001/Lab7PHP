@@ -126,6 +126,7 @@ class User {
     }
     
     public function addAlbum($album) {
+        $albums = array();
         $albums = $this->getAlbums();
         $albums[] = $album;
     }
