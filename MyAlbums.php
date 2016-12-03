@@ -16,12 +16,14 @@
         include "./Lab7Common/Constants.php";
 
         session_start();
-        $dao = new DataAccessObject(INI_FILE_PATH);
+        
         if (!isset($_SESSION['user'])) {
         $_SESSION['rurl'] = "MyAlbums.php";
         header("Location:Login.php");
         exit();
         }
+        $dao = new DataAccessObject(INI_FILE_PATH);
+        
         extract($_POST);
         $user = $_SESSION["user"];
         $error = "";

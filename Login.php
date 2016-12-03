@@ -59,11 +59,12 @@
 
         $_SESSION["user"] = $user;
         
-        if($_SESSION['rurl'] = "AddAlbum.php"){
+        if($_SESSION['rurl'] == "AddAlbum.php"){
              header("Location: AddAlbum.php");
              exit();
-        }
+        }else{
         header("Location: MyAlbums.php");
+        }
         exit();
 
         }
