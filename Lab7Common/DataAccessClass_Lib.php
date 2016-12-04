@@ -49,10 +49,10 @@ class DataAccessObject {
         return $albums;
     }
 
-    public function updateAlbumAccessibillity($album, $newAccessibillityCode) {
+    public function updateAlbumAccessibillity($albumid, $newAccessibillityCode) {
         $sql = "UPDATE Album SET Accessibility_Code = :accessibilityCode WHERE Album_Id = :albumId";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
+        $stmt->execute(['accessibilityCode'=>$newAccessibillityCode, 'albumId'=>$albumid]);
         $access = array();
         foreach ($stmt as $row) {
             $accessibility = new Accessibility($row['Accessibility_Code'], $row['Description']);
