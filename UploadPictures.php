@@ -37,6 +37,8 @@
         else{
             $selectedAlbum = $albums[0];
         }
+        
+      
 
 
         if (isset($btnUpload)) {
@@ -54,14 +56,7 @@
                 $selectedAlbumId = $_POST['sltAlbum'];
                 
                 $album=$user->getAlbumById($selectedAlbumId);
-                
-//                foreach($albums as $album){
-//                    if($album->getAlbumId() ===$selectedAlbumId ){
-//                        $selectdAlbum = $album;
-//                    }
-//                }
-                
-                
+           
                 
                 for ($i = 0; $i < $numFiles; $i++) {
                     if ($_FILES['txtUpload']['error'][$i] == 0) {
@@ -71,16 +66,7 @@
                         $fileName = $_FILES['txtUpload']['name'][0];
                         $pic = new Picture($title, $description, $fileName, $pictureId);
                         $dao->savePicture($album, $pic);
-                        $album->setPictures($pic);
-                        
-                        
-                        
-//                        $picToAlbum = array();
-//                        $picToAlbum = $selectdAlbum->getPictures();
-//                        $picToAlbum[] = $pic;
-//                        $selectdAlbum->setPictures($picToAlbum );
-                        
-
+                       
                         if ($imageDetails && in_array($imageDetails, $supportedImageTypes)) {
                             $imageFilePath = resamplePicture(ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId", $i);
                         }
@@ -88,6 +74,8 @@
                     
                 }
             }
+            $title='';
+            $description='';
         }
         ?>
 

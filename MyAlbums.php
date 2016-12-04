@@ -37,6 +37,16 @@
         }
 
         $albums = $dao->getAlbumsForUser($user);
+        
+        if(isset($btnSaveChanges)){
+            for($i=0; $i<sizeof($albums); $i++){
+                $albumId = $albums[$i]->getAlbumId();
+                $accseesCode = $drpAccessibility[$i];
+                
+                $dao->updateAlbumAccessibillity($albumId, $accseesCode);
+                
+            }
+        }
         ?>
 
         <div class="container">
@@ -51,6 +61,7 @@
             <div class="row vertical-margin col-md-10 text-right">
                 <p><a href="AddAlbum.php">Create a New Album</a></p>
             </div>
+            <form name="myalbums" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <div class="row vertical-margin">
                 <div class="col-md-12">
                     <table class="table">
@@ -109,30 +120,12 @@ print "<option value='$code'> $description </option>";
                     </table>
                 </div>
             </div>
-            <div class="col-md-10 text-right ">
-                <input class="btn btn-primary" type = "submit" name="btnSave" value = "Save Changes" class="button" />
+            <div class="col-md-12 text-right ">
+                <input class="btn btn-primary" type = "submit" name="btnSaveChanges" value = "Save Changes" class="button" />
             </div>
             </form>
 
-
-
-
-
-
-
-
         </div>
-
-
-
-
-
-
-
-
-
-
-
 
     </body>
 </html>
