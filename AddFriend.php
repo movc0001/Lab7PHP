@@ -52,15 +52,15 @@
                 }
             }
 
-            if ($message == "") {
-                if ($user->isRequestedBy($requesteeId)) {
-                    $dao->acceptFriendRequester($user, $requesteeId);
-
-                    $friend = $user->getFriends()[$requesteeId];
-                    $friendName = $friend->getName();
-                    $message = "Since $friendName also has requested to be your friend too, you and $friendName are now friends";
-                }
-            }
+//            if ($message == "") {
+//                if ($user->isRequestedBy($requesteeId)) {
+//                    $dao->acceptFriendRequester($user, $requesteeId);
+//
+//                    $friend = $user->getFriends()[$requesteeId];
+//                    $friendName = $friend->getName();
+//                    $message = "Since $friendName also has requested to be your friend too, you and $friendName are now friends";
+//                }
+//            }
             if ($message == "") {
                 $dao->saveFriendRequest($user, $requesteeId);
                 

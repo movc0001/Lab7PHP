@@ -24,7 +24,8 @@
         }
         extract($_POST);
         $user = $_SESSION["user"];
-
+        
+        
         if (isset($btnDefriend)) {
             if (isset($toDefriend)) {
                 $dao = new DataAccessObject(INI_FILE_PATH);
@@ -42,12 +43,12 @@
             }
         }
         if (isset($btnAccept)) {
-            if (isset($acceptDeny)) {
+           // if (isset($acceptDeny)) {
                 $dao = new DataAccessObject(INI_FILE_PATH);
                 foreach ($acceptDeny as $requesterId) {
                     $dao->acceptFriendRequester($user, $requesterId);
                 }
-            }
+            //}
         }
         ?>
         <div class="container">
@@ -109,7 +110,13 @@
                                 
                                 </tr>
                                 <?php
-                                $requesters = $user->getFriendRequesters();
+                                //$requesters = $user->getFriendRequesters();
+                                $requesters = array();
+                                $request= $dao->getFriendRequestersForUser($user);
+                                foreach($request as $requester){
+                                    $req = $dao->getUserById($requester);
+                                    $requesters[] = $req;
+                                }
                                 if (sizeof($requesters) > 0) {
                                     foreach ($requesters as $requester) {
                                         $id = $requester->getUserId();
