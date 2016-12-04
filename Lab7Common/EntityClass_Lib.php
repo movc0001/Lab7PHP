@@ -127,6 +127,10 @@ class User {
     {
         
     }
+    function acceptRequest($requester){
+        
+        $this->friends[]=$requester;
+    }
 
     function isRequestedBy($userId) {
         return array_key_exists($userId, $this->friendrequesters);
