@@ -63,12 +63,12 @@
                 $selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
             }
         }
-        esle if(isset($action))
+        else if(isset($action))
         {
             $selectedAlbumId = $selectedAlbum->getAlbum();
-            $selectedPictureFilePath= ALBUM_PICTURES_DIR."/$userId/$selectedAlbumId/".$selectedPicture->getFileName()
-            $selectedThumbnailFilePath = ALBUM_THUMBNAILS_DIR."/$userId/$selectedAlbumId/".$selectePicture->getFileName()
-            $selectedOriginalPictureFilePath = ORIGINAL_PICTURES_DIR."/$userId/$selectedAlbumId/".$selectedPicture
+            $selectedPictureFilePath= ALBUM_PICTURES_DIR."/$userId/$selectedAlbumId/".$selectedPicture->getFileName();
+            $selectedThumbnailFilePath = ALBUM_THUMBNAILS_DIR."/$userId/$selectedAlbumId/".$selectePicture->getFileName();
+            $selectedOriginalPictureFilePath = ORIGINAL_PICTURES_DIR."/$userId/$selectedAlbumId/".$selectedPicture;
                     
             if($action === "Delete")
             {
