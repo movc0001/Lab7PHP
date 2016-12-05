@@ -165,8 +165,10 @@ class DataAccessObject {
         $user->defriend($friend);
     }
 
-    public function denyFriendRequest($user, $requestId) { //not done
-        $sql = "DELETE FROME Friendship WHERE Friend_RequesterId = :requesterId AND Friend_RequesteeId = :userId AND Status='request'";
+    public function denyFriendRequest($user, $requesterId) { //not done
+        $sql = "DELETE FROM Friendship WHERE Friend_RequesterId = :requesterId AND Friend_RequesteeId = :userId AND Status='request'";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['requesterId' => $requesterId, 'userId' => $user->getUserId()]);
     }
 
 //    public function acceptAfriendRequest($user, $requestId) { //not done
