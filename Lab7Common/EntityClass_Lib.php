@@ -66,13 +66,19 @@ class User {
 
     function getSharedAlbums() {
         $sharedAlbums = array();
+//        $userAlbums = $this->albums;
+//        if(count($userAlbums)>0){
         foreach ($this->albums as $album) {
-            if ($album->getAccessibilityCode() == 'shared') {
-                $sharedAlbums[$album->getAlbumId()] = $album;
+            
+            if ($album->getAccessibility_code() == 'shared') {
+                $sharedAlbums[] = $album;
             }
-            return $sharedAlbums;
+            
         }
+        return $sharedAlbums;
     }
+    
+//            }
 
     function getAlbums() {
         return $this->albums;
