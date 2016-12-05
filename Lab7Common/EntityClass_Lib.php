@@ -34,7 +34,7 @@ class User {
         $this->userId = $userId;
         $this->name = $name;
         $this->phone = $phone;
-        
+
         $this->albums = array();
         $this->friends = array();
         $this->friendrequesters = array();
@@ -43,12 +43,11 @@ class User {
     function getUserId() {
         return $this->userId;
     }
-    
+
     public function setUserId($userId) {
         $this->userId = $userId;
     }
 
-    
     function getName() {
         return $this->name;
     }
@@ -60,12 +59,11 @@ class User {
     function getPassword() {
         return $this->password;
     }
-    
+
     public function setPassword($password) {
         $this->password = $password;
     }
 
-    
     function getSharedAlbums() {
         $sharedAlbums = array();
         foreach ($this->albums as $album) {
@@ -86,11 +84,10 @@ class User {
 
     function getAlbumById($albumId) {
         $userAlbums = $this->getAlbums();
-        foreach($userAlbums as $album){
-            if ($album->getAlbumId() == $albumId){
+        foreach ($userAlbums as $album) {
+            if ($album->getAlbumId() == $albumId) {
                 $selectedAlb = $album;
             }
-            
         }
         return $selectedAlb;
     }
@@ -104,7 +101,7 @@ class User {
     }
 
     function isFriend($userId) {
-        return array_key_exists($userId, $this->friends) ;
+        return array_key_exists($userId, $this->friends);
     }
 
     function getFriends() {
@@ -122,20 +119,20 @@ class User {
     function setFriendrequesters($friendrequesters) {
         $this->friendrequesters = $friendrequesters;
     }
-    
-    function addFriendRequest($requesteeId)
-    {
+
+    function addFriendRequest($requesteeId) {
         
     }
-    function acceptRequest($requester){
-        
-        $this->friends[]=$requester;
+
+    function acceptRequest($requester) {
+
+        $this->friends[] = $requester;
     }
 
     function isRequestedBy($userId) {
         return array_key_exists($userId, $this->friendrequesters);
     }
-    
+
     public function addAlbum($album) {
         $albums = array();
         $albums = $this->getAlbums();
@@ -187,9 +184,7 @@ class Album {
     function getPictures() {
         return $this->pictures;
     }
-  
 
-    
     function getDate_Updated() {
         return $this->date_updated;
     }
@@ -201,7 +196,7 @@ class Album {
     function getOwner_id() {
         return $this->owner_id;
     }
-    
+
     public function getAccessibility_code() {
         return $this->accessibility_code;
     }
@@ -210,12 +205,10 @@ class Album {
         $this->pictures = $pictures;
     }
 
-      
-
-    public function __toString()
-    {
-        return $this->title." -- Updated on ".$this->getDate_Updated()->format('Y-m-d');
+    public function __toString() {
+        return $this->title . " -- Updated on " . $this->getDate_Updated()->format('Y-m-d');
     }
+
 }
 
 class Picture {
@@ -232,19 +225,20 @@ class Picture {
         $this->title = $title;
         $this->description = $description;
         $this->fileName = $fileName;
-        
+
         $this->comments = array();
         $this->dateUploaded = date('Y-m-d\TH:i:s');
     }
-    
+
     public function getPictureId() {
         return $this->pictureId;
     }
+
     public function setPictureId($pictureId) {
         $this->pictureId = $pictureId;
     }
 
-        public function getTitle() {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -263,9 +257,6 @@ class Picture {
     public function getComments() {
         return $this->comments;
     }
-
-
-    
 
 }
 
