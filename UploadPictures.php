@@ -63,12 +63,14 @@
                         $filePath = save_uploaded_file(ORIGINAL_PICTURES_DIR . "/$userId/$selectedAlbumId", $i);
 
                         $imageDetails = getimagesize($filePath);
+                        $mime = $imageDetails[mime];
                         $fileName = $_FILES['txtUpload']['name'][0];
                         $pic = new Picture($title, $description, $fileName, $pictureId);
                         $dao->savePicture($album, $pic);
                        
-                        if ($imageDetails && in_array($imageDetails, $supportedImageTypes)) {
+                        if ($imageDetails && in_array($mime,$supportedImageTypes)) {
                             $imageFilePath = resamplePicture(ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId", $i);
+                            print 'lalallal';
                         }
                     }
                     

@@ -119,7 +119,7 @@
                     ?>
                     <div class="row vertical-margin">
                         <div class="col-md-8">
-                            <select name='selectedAlbumId' class='form-control' onchange="onAlbumChange()">
+                            <select name='selectedAlbumId[]' class='form-control' onchange="onAlbumChange()">
                                 <?php
                                 foreach ($albums as $album) {
                 $albumDisplayText = $album->getTitle()."Updated on ". $album->getDate_Updated();
@@ -167,10 +167,10 @@
                             <div class="row vertical-margin">
                                 <div class="col-lg-12 text-center img-container">
                                     <img style="width:100%" src="<?php print $selectedPictureFilePath . "?rnd=" . rand(); ?>"/>
-                                    <a href="MyPictures.php>action=RotateLeft"><span style="position: absolute; left: 35%; top: 90%;" class="glyphicon glyphicon-repeat gly-flip-horizontal"></span></a>
-                                    <a href="MyPictures.php>action=RotateRight"><span style="position: absolute; left: 45%; top: 90%;" class="glyphicon glyphicon-repeat"></span></a>
-                                    <a href="MyPictures.php>action=Download"><span style="position: absolute; left: 55%; top: 90%;" class="glyphicon glyphicon-download-alt"></span></a>
-                                    <a href="MyPictures.php>action=Delete" onclick="return confirm('This picture and all the comments to it will be deleted!');"><span style="position: absolute; left: 65%; top: 90%;" class="glyphicon-remove"></span></a>
+                                    <a href="MyPictures.php?action=RotateLeft"><span style="position: absolute; left: 35%; top: 90%;" class="glyphicon glyphicon-repeat gly-flip-horizontal"></span></a>
+                                    <a href="MyPictures.php?action=RotateRight"><span style="position: absolute; left: 45%; top: 90%;" class="glyphicon glyphicon-repeat"></span></a>
+                                    <a href="MyPictures.php?action=Download"><span style="position: absolute; left: 55%; top: 90%;" class="glyphicon glyphicon-download-alt"></span></a>
+                                    <a href="MyPictures.php?action=Delete" onclick="return confirm('This picture and all the comments to it will be deleted!');"><span style="position: absolute; left: 65%; top: 90%;" class="glyphicon-remove"></span></a>
                                 </div>
                             </div>
                             <div class="row vertical-margin" style="white-space: nowrap">
