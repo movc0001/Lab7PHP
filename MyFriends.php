@@ -26,6 +26,7 @@
         $user = $_SESSION["user"];
         
        $dao->getFriendsForUser($user);
+       $dao->getAlbumsForUser($user);
         
         if (isset($btnDefriend)) {
             if (isset($toDefriend)) {
@@ -82,6 +83,7 @@
                             foreach ($friends as $friend) {
                                 $id = $friend->getUserId();
                                 $name = $friend->getName();
+                                $dao->getAlbumsForUser($friend);
                                 $numAlbums = sizeof($friend->getSharedAlbums());
                                 print "<tr><td><a href='FriendPictures.php?friendId=$id'>$name</a></td><td>$numAlbums</td>"
                                         . "<td><input type='checkbox' name='toDefriend[]' value='$id'></td></tr>";
