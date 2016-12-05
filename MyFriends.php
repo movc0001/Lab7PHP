@@ -96,7 +96,7 @@
 
 
                 <div class="col-md-10 text-right ">
-                    <input class="btn btn-primary" type = "submit" name="btnDefriend" value = "Defriend Selected" class="button" />
+                    <input class="btn btn-primary" type = "submit" name="btnDefriend" onclick="return confirm('Are you sure you want to delete this friend?') "value = "Defriend Selected" class="button" />
                 </div>
 
 
