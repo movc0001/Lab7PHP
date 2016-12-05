@@ -1,6 +1,6 @@
 <html xmlns = "http://www.w3.org/1999/xhtml">
     <head>
-        <title>Course Registration</title>
+        <title>My Pictures</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="x-ua-compatible" content="ie=edge"/>
@@ -15,8 +15,9 @@
         include "./Lab7Common/Function_Lib.php";
         include "./Lab7Common/Constants.php";
 
+        //$dao = new DataAccessObject(INI_FILE_PATH);
         session_start();
-        $dao = new DataAccessObject(INI_FILE_PATH);
+        
         if (!isset($_SESSION['user'])) {
         $_SESSION['rurl'] = "MyPictures.php";
         header("Location:Login.php");
@@ -59,11 +60,11 @@
             }
             else
             {
-                $selectedPictureId = array_keys($selectedAlbum->getPictures()[0]);
+                $selectedPictureId = array_keys($selectedAlbum->getPictures())[0];
                 $selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
             }
         }
-        else if(isset($action))
+        else if(isset($action)) //------------ needs to be done -----------------
         {
             $selectedAlbumId = $selectedAlbum->getAlbum();
             $selectedPictureFilePath= ALBUM_PICTURES_DIR."/$userId/$selectedAlbumId/".$selectedPicture->getFileName();
@@ -82,13 +83,13 @@
                 
                 if(sizeof($selectedAlbum->getPictures() == 0))
                 {
-                    $noPictureMessage  = "You do not have any pictures!";
+                    $noPictureMessage  = "You do not have any pictures in the selected album!";
                 }
                 else
                 {
-                    
-                }
-                
+                    $selectePictureId = array_keys($selectedAlbum->getPictures())[0];
+                    $selectedPicture = $selectedAlbum->getPictures()[$selectePictureId]; 
+                }  
             }
             else if ($action === "RotateLeft")
             {
@@ -101,7 +102,7 @@
                 rotateImage($selectedPictureFilePath, -90);
                 rotateImage($selectedThumbnailFilePath, -90);
             }
-            esle if($action === "Download")
+            else if($action === "Download")
             {
                 downloadFile($selectedOriginalPictureFilePath);
             }
@@ -110,22 +111,29 @@
         {
             if(sizeof($albums == 0)
             {
-                $noAlbumMessage = "You do not have any albums!";
+                $noAlbumMessage = "You do not have any albums yet!";
             }
             else
             {
                 $noAlbumMessage = "";
-                $selectedAlbumId = array_keys();
-                $selectedAlbum = $albums
-                        if(sizeof($var, $mode)))
-            }
-            
-            
+                $selectedAlbumId = array_keys($albums)[0];
+                $selectedAlbum = $albums[$selectedAlbumId];
+                if(sizeof($selectedAlbum->getPictures() == 0))
+                {
+                    $noPictureMessage = "You do not have any pictures in the selected album";
+                }
+                else
+                {
+                    $noPictureMessage = "";
+                    $selectedPictureId = array_keys($selectedAlbum->getPictures())[0];
+                    $selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
+                }
+            }  
         } 
         ?>
 
   <div class="container">
-      <form class="form-horizontal" method="post" id="picture-form" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+      <form class="form-horizontal" method="post" id="picture-form" action="MyPictures.php">
             <div class="row vertical-margin text-center">
                 <h2>My Pictures</h2>
             </div>
@@ -150,7 +158,7 @@
                       {
                           $albumDisplayText = $album;
                           $albumId = $album->getAlbumId();
-                          print "<option value='$albumId' ".($albumId == $selectedAlbumId > "selected" : ""). ">";
+                          print "<option value='$albumId' ".($albumId == $selectedAlbumId ? "selected" : ""). ">$album"; // ------- needs to be modified ------
                       }
                       ?>
                   </select>
@@ -158,6 +166,14 @@
           </div>
           
           <?php
+          }
+          if($noPictureMessage != "")
+          {
+          ?>
+          <div class="row vertical-margin">
+              <div class="col-md-8 error"><?php print ($noPictureMessage) ?></div>
+          </div>
+ <?php
           }
           else if ($noPictureMessage == "" && $noAlbumMessage == "")
           {

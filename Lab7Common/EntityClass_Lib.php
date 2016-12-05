@@ -212,7 +212,10 @@ class Album {
 
       
 
-    //public function _toString();
+    public function __toString()
+    {
+        return $this->title." -- Updated on ".$this->getDate_Updated()->format('Y-m-d');
+    }
 }
 
 class Picture {
