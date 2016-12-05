@@ -211,9 +211,9 @@ class Album {
         $this->pictures = $pictures;
     }
 
-    public function __toString() {
-        return $this->title . " -- Updated on " . $this->getDate_Updated()->format('Y-m-d');
-    }
+//    public function __toString() {
+//        return $this->title . " -- Updated on " . $this->getDate_Updated()->format('Y-m-d');
+//    }
 
 }
 
