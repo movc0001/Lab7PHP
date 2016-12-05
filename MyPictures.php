@@ -63,12 +63,12 @@
                 $selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
             }
         }
-        esle if(isset($action))
+        else if(isset($action))
         {
             $selectedAlbumId = $selectedAlbum->getAlbum();
-            $selectedPictureFilePath= ALBUM_PICTURES_DIR."/$userId/$selectedAlbumId/".$selectedPicture->getFileName()
-            $selectedThumbnailFilePath = ALBUM_THUMBNAILS_DIR."/$userId/$selectedAlbumId/".$selectePicture->getFileName()
-            $selectedOriginalPictureFilePath = ORIGINAL_PICTURES_DIR."/$userId/$selectedAlbumId/".$selectedPicture
+            $selectedPictureFilePath= ALBUM_PICTURES_DIR."/$userId/$selectedAlbumId/".$selectedPicture->getFileName();
+            $selectedThumbnailFilePath = ALBUM_THUMBNAILS_DIR."/$userId/$selectedAlbumId/".$selectePicture->getFileName();
+            $selectedOriginalPictureFilePath = ORIGINAL_PICTURES_DIR."/$userId/$selectedAlbumId/".$selectedPicture;
                     
             if($action === "Delete")
             {
@@ -101,14 +101,14 @@
                 rotateImage($selectedPictureFilePath, -90);
                 rotateImage($selectedThumbnailFilePath, -90);
             }
-            esle if($action === "Download")
+            else if($action === "Download")
             {
                 downloadFile($selectedOriginalPictureFilePath);
             }
         }
         else
         {
-            if(sizeof($albums == 0)
+            if(sizeof($albums == 0))
             {
                 $noAlbumMessage = "You do not have any albums!";
             }
@@ -116,8 +116,10 @@
             {
                 $noAlbumMessage = "";
                 $selectedAlbumId = array_keys();
-                $selectedAlbum = $albums
-                        if(sizeof($var, $mode)))
+                $selectedAlbum = $albums;
+//                        if(sizeof($var, $mode)){
+//                            
+//                        }
             }
             
             
@@ -150,7 +152,7 @@
                       {
                           $albumDisplayText = $album;
                           $albumId = $album->getAlbumId();
-                          print "<option value='$albumId' ".($albumId == $selectedAlbumId > "selected" : ""). ">";
+                          //print "<option value='$albumId' ".($albumId == $selectedAlbumId > "selected" : ""). ">";
                       }
                       ?>
                   </select>
@@ -159,14 +161,21 @@
           
           <?php
           }
-          else if ($noPictureMessage == "" && $noAlbumMessage == "")
+          
+          
+//          else 
+            if($noPictureMessage == "" && $noAlbumMessage == "")
           {
               $selectedAlbumId = $selectedAlbum->getAlbumId();
-              $selectedPictureFilePath = ALBUM_PICTURES_DIR."/$userId/$selectedAlbumId"";
+              $selectedPictureFilePath = ALBUM_PICTURES_DIR.'/$userId/$selectedAlbumId""';
               
 ?>
 
-<div class="row vertical-margin">
+          <div class="row vertical-margin"></div>
+      </form>
+  </div>
+    </body>
+</html>
+   <?php       
           }
-            
-            
+?>

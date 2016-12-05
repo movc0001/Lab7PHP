@@ -179,9 +179,9 @@ class DataAccessObject {
 //    }
 
     public function acceptFriendRequester($user, $requesteeId) {
-        $sql = "UPDATE Friendship SET Status = 'accepted' WHERE Friend_RequesterId = :requesterId AND Friend_RequesterId = :userId";
+        $sql = "UPDATE Friendship SET Status = 'accepted' WHERE Friend_RequesterId = :requesterId AND Friend_RequesteeId = :userId";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['requesterId' => $requesterId, 'userId' => $user->getUserId()]);
+        $stmt->execute(['requesterId' => $requesteeId, 'userId' => $user->getUserId()]);
          
         $requester = $this->getUserById($requesteeId);
         //$requesters = $user->getFriendRequesters();
