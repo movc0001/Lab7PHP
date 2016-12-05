@@ -63,13 +63,13 @@
                         $filePath = save_uploaded_file(ORIGINAL_PICTURES_DIR . "/$userId/$selectedAlbumId", $i);
 
                         $imageDetails = getimagesize($filePath);
-                        $mime = $imageDetails[mime];
+                        //$mime = $imageDetails[mime];
                         $fileName = $_FILES['txtUpload']['name'][0];
                         $pic = new Picture($title, $description, $fileName, $pictureId);
                         $dao->savePicture($album, $pic);
                        
-                        if ($imageDetails && in_array($mime,$supportedImageTypes)) {
-                            $imageFilePath = resamplePicture(ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId", $i);
+                        if ($imageDetails && in_array($imageDetails[2],$supportedImageTypes)) {
+                            $imageFilePath = resamplePicture($filePath, ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId", IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT, $i);
                             print 'lalallal';
                         }
                     }
