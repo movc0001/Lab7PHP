@@ -54,7 +54,7 @@ function resamplePicture($filePath, $destinationPath, $maxWidth, $maxHeight, $up
 {
 	if (!file_exists($destinationPath))
 	{
-		mkdir($destinationPath);
+		mkdir($destinationPath,  0777, true);
 	}
 
 	$imageDetails = getimagesize($filePath);
