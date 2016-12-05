@@ -69,8 +69,10 @@
                         $dao->savePicture($album, $pic);
                        
                         if ($imageDetails && in_array($imageDetails[2],$supportedImageTypes)) {
+                           
                             $imageFilePath = resamplePicture($filePath, ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId", IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT, $i);
-                            print 'lalallal';
+                            $imageFilePath = resamplePicture($filePath, ALBUM_THUMBNAILS_DIR . "/$userId/$selectedAlbumId", THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT, $i);
+                            
                         }
                     }
                     
