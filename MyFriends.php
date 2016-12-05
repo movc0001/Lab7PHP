@@ -25,6 +25,7 @@
         extract($_POST);
         $user = $_SESSION["user"];
         
+       $dao->getFriendsForUser($user);
         
         if (isset($btnDefriend)) {
             if (isset($toDefriend)) {

@@ -40,10 +40,10 @@ class DataAccessObject {
             //$dateUpdated = DateTime::createFromFormat('Y-m-d G:i:s', $row['Date_Updated']);
             //$album = new Album($row['Title'], $row['Description'], $row['Accessibility_Code'],$row['Album_Id'], $dateUpdated);
             $album = new Album($row['Title'], $row['Description'], $row['Date_Updated'], $row['Accessibility_Code'], $row['Album_Id']);
-            
-          $this->getPicturesForAlbum($album);
+
+            $this->getPicturesForAlbum($album);
             //$albums[$album->getAlbumId()] = $album;
-          $albums[]=$album;
+            $albums[] = $album;
         }
         $user->setAlbums($albums);
         return $albums;
@@ -52,7 +52,7 @@ class DataAccessObject {
     public function updateAlbumAccessibillity($albumid, $newAccessibillityCode) {
         $sql = "UPDATE Album SET Accessibility_Code = :accessibilityCode WHERE Album_Id = :albumId";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['accessibilityCode'=>$newAccessibillityCode, 'albumId'=>$albumid]);
+        $stmt->execute(['accessibilityCode' => $newAccessibillityCode, 'albumId' => $albumid]);
         $access = array();
         foreach ($stmt as $row) {
             $accessibility = new Accessibility($row['Accessibility_Code'], $row['Description']);
@@ -127,7 +127,7 @@ class DataAccessObject {
         //$user->addAlbum($album);
         //$album = getAlbumById($albumid);
 
-        $picToAlbum = $album -> getPictures();
+        $picToAlbum = $album->getPictures();
         $picToAlbum[] = $picture;
         $album->setPictures($picToAlbum);
     }
@@ -143,7 +143,7 @@ class DataAccessObject {
 
             $this->getCommentsForPicture($picture);
             //$pictures[$picture->getPictureId()] = $picture;
-            $pictures[]= $picture;
+            $pictures[] = $picture;
         }
         $album->setPictures($pictures);
     }
@@ -165,66 +165,58 @@ class DataAccessObject {
         $user->defriend($friend);
     }
 
-    public function denyFriendRequest($user, $requesterId) { //not done
+    public function denyFriendRequest($user, $requesterId) {
         $sql = "DELETE FROM Friendship WHERE Friend_RequesterId = :requesterId AND Friend_RequesteeId = :userId AND Status='request'";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['requesterId' => $requesterId, 'userId' => $user->getUserId()]);
     }
 
-//    public function acceptAfriendRequest($user, $requestId) { //not done
-//        $sql = "UPDATE Friendship SET Status = 'accepted' WHERE Friend_RequesterId = :requesterId AND Friend_RequesterId = :userId";
-//        $stmt = $this->pdo->prepare($sql);
-//        $stmt->execute(['requesterId' => $requesterId, 'userId' => $user->getUserId()]);
-//
-//        $requester = $user->getFriendRequesters()[$requesterId];
-//        $user->acceptRequest($requester);
-//    }
-
     public function acceptFriendRequester($user, $requesteeId) {
         $sql = "UPDATE Friendship SET Status = 'accepted' WHERE Friend_RequesterId = :requesterId AND Friend_RequesteeId = :userId";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['requesterId' => $requesteeId, 'userId' => $user->getUserId()]);
-         
+
         $requester = $this->getUserById($requesteeId);
-        //$requesters = $user->getFriendRequesters();
-        //$requesters[] =$requesterId;
+
         $user->acceptRequest($requester);
     }
 
     public function getFriendsForUser($user) { //not done
-
         $sql = "SELECT Friend_RequesteeId FROM Friendship "
                 . "WHERE Friend_RequesterId = :userId AND Status = 'accepted'";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $user->getUserId()]);
+        $friendIds = array();
+        foreach ($stmt as $row) {
+            $friendIds[] = $row[Friend_RequesteeId];
+        }
+        $friends = array();
+        foreach($friendIds as $friend){
+            $aFriend = $this->getUserById($friend);
+             $friends[] = $aFriend;
+            
+        }
+        $user->setFriends($friends);
+        
         // //// neeeeds to be done ----------------
 
-        $sql = "SELECT Friend_RequesterId FROM Friendship "
-                . "WHERE Friend_RequesteeId = :userId AND Status = 'accepted'";
+        
     }
 
     public function getFriendRequestersForUser($user) { //not done
-        
         $sql = "SELECT Friend_RequesterId FROM Friendship "
                 . "WHERE Friend_RequesteeId = :userId AND Status = 'request'";
-    
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $user->getUserId()]);
-         $requestersId = array();
-         foreach ($stmt as $row) {
-            
-                 $id = $row[Friend_RequesterId];
-                 $requestersId[]=$id;
-             }
-             return $requestersId;
-             
-         
-       
-        
-        
-        
-        
+        $requestersId = array();
+        foreach ($stmt as $row) {
+
+            $id = $row[Friend_RequesterId];
+            $requestersId[] = $id;
+        }
+        return $requestersId;
     }
 
     public function saveFriendRequest($user, $requesteeId) {
@@ -238,14 +230,13 @@ class DataAccessObject {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $user->getUserId(), 'requesteeId' => $requesteeId]);
         //$requestee = $this->getUserById($requesteeId);
-       // $requesters = $user->getFriendrequesters();
+        // $requesters = $user->getFriendrequesters();
         //$requesters[] = $requestee;
         //$user->setFriendrequesters($requesters);
-        
 
-        
+
+
         return $requestee;
-        
     }
 
     public function userExists($userId) {
