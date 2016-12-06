@@ -156,7 +156,7 @@ class DataAccessObject {
         $stmt->execute(['albumId' => $album->getAlbumId()]);
         foreach ($stmt as $row) {
             $dateUploaded = DateTime::createFromFormat('Y-m-d G:i:s', $row['Date_Updated']);
-            $picture = new Picture($row['Title'], $row['Description'], $row['FileName'], $dateUploaded);
+            $picture = new Picture($row['Title'], $row['Description'], $row['FileName'], $row['Picture_Id']);
 
             $this->getCommentsForPicture($picture);
             //$pictures[$picture->getPictureId()] = $picture;
