@@ -50,7 +50,16 @@
         }
 
         if (isset($selectedPictureId)) {
-            $selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
+            $pics = $selectedAlbum->getPictures();
+            foreach ($pics as $pic){
+                if($pic->getPictureId() == $selectedPictureId ){
+                    $selectedPicture = $pic;
+                }
+                
+            }
+            //$selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
+            
+            
         } else if (isset($btnComment)) {
             if (trim($commentText) != "") {
                 $comment = new Comment(null, $commentText, $user);
@@ -86,8 +95,8 @@
                 if (count($selectedAlbum->getPictures()) == 0) {
                     $noPictureMessage = "You do not have any pictures in the selected album!";
                 } else {
-                    $selectePictureId = array_keys($selectedAlbum->getPictures())[0];
-                    $selectedPicture = $selectedAlbum->getPictures()[$selectePictureId];
+                    $selectedPictureId = array_keys($selectedAlbum->getPictures())[0];
+                    $selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
                 }
             } else if ($action === "RotateLeft") {
                 rotateImage($selectedPictureFilePath, 90);
@@ -103,15 +112,21 @@
                 $noAlbumMessage = "You do not have any albums yet!";
             } else {
                 $noAlbumMessage = "";
-                $selectedAlbumId = array_keys($albums)[0];
+                //$selectedAlbumId = array_keys($albums)[0];
                 //$selectedAlbumId = $albums[0]->getAlbumId();
-                $selectedAlbum = $albums[$selectedAlbumId];
+                //$selectedAlbum = $albums[$selectedAlbumId];
+                $selectedAlbum = $albums[0];
+                $selectedAlbumId =  $selectedAlbum->getAlbumId();
+                
                 if (count($selectedAlbum->getPictures()) == 0) {
                     $noPictureMessage = "You do not have any pictures in the selected album";
                 } else {
                     $noPictureMessage = "";
-                    $selectedPictureId = array_keys($selectedAlbum->getPictures())[0];
-                    $selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
+                    $albumPics = $selectedAlbum->getPictures();
+                    $selectedPicture = $albumPics[0];
+                    $selectedPictureId =  $selectedPicture->getPictureId();
+//                    $selectedPictureId = array_keys($selectedAlbum->getPictures())[0];
+//                    $selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
                 }
             }
         }
@@ -201,7 +216,7 @@ if ($noPictureMessage != "") {
         if ($selectedPictureId == $pictureId) {
             print "<button value='$pictureId' name='selectedPictureId' style='border-style: solid; border-color: blue; border-width: 3px'>";
         } else {
-            print "<button value='$pictureId' name='selectedPictureId'>";
+            print "<button value='$pictureId'  name='selectedPictureId'>";
         }
         ?>
                                             <img style="height:65px; auto" src="<?php print $thumbnailPath . "?rnd=" . rand(); ?>"/> 
