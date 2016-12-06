@@ -81,7 +81,7 @@
             $selectedAlbumId = $selectedAlbum->getAlbumId();
             $selectedPictureFilePath = ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId/" . $selectedPicture->getFileName();
             $selectedThumbnailFilePath = ALBUM_THUMBNAILS_DIR . "/$userId/$selectedAlbumId/" . $selectedPicture->getFileName();
-            $selectedOriginalPictureFilePath = ORIGINAL_PICTURES_DIR . "/$userId/$selectedAlbumId/" . $selectedPicture;
+            $selectedOriginalPictureFilePath = ORIGINAL_PICTURES_DIR . "/$userId/$selectedAlbumId/" . $selectedPicture ->getFileName();
 
             if ($action === "Delete") {
                 $dao = new DataAccessObject(INI_FILE_PATH);
