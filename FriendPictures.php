@@ -34,11 +34,17 @@
         extract($_GET);
         
         unset($_SESSION['selectedAlbum']);
-        unset($_SESSION['selectedPicture']);
+        //unset($_SESSION['selectedPicture']);
         
         $userId = $_GET['friendId'];
         $user = $dao->getUserById($userId);
         $albums = $dao->getAlbumsForUser($user);
+       
+//        foreach ($albums as $album)
+//        {
+//            $selectedAlbumId = $album->getAlbumId();
+//            
+//        }
                
         if ($albumChangedFlag) {
             foreach ($albums as $album) {

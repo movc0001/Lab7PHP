@@ -280,8 +280,13 @@ Class Comment {
         $this->commentText = $commentText;
         $this->commentDate = $commentDate;
     }
-    
-    public function getCommentId() {
+    public function setPictureId($pictureId) {
+        $this->pictureId = $pictureId;
+    }
+
+   
+
+        public function getCommentId() {
         return $this->commentId;
     }
 
