@@ -267,6 +267,54 @@ class Picture {
 }
 
 Class Comment {
+    private $commentId;
+    private $authorId;
+    private $pictureId;
+    private $commentText;
+    private $commentDate;
+    
+    public function __construct($authorId, $pictureId, $commentText, $commentDate, $commentId=null ) {
+        $this->commentId = $commentId;
+        $this->authorId = $authorId;
+        $this->pictureId = $pictureId;
+        $this->commentText = $commentText;
+        $this->commentDate = $commentDate;
+    }
+    
+    public function getCommentId() {
+        return $this->commentId;
+    }
+
+    public function getCommentText() {
+        return $this->commentText;
+    }
+
+    public function setCommentId($commentId) {
+        $this->commentId = $commentId;
+    }
+
+    public function setCommentText($commentText) {
+        $this->commentText = $commentText;
+    }
+    
+    public function getAuthorId() {
+        return $this->authorId;
+    }
+
+    public function getPictureId() {
+        return $this->pictureId;
+    }
+
+    public function getCommentDate() {
+        return $this->commentDate;
+    }
+
+
+
+
+
+
+
     
 }
 
