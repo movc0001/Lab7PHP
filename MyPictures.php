@@ -28,6 +28,7 @@
         $user = $_SESSION["user"];
         $userId = $user->getUserId();
         $albums = $user->getAlbums();
+        $commentText = $_POST['commentText'];
 
         extract($_POST);
         extract($_GET);
@@ -64,9 +65,11 @@
         } else if (isset($btnComment)) {
             if (trim($commentText) != "") {
                 //$comment = new Comment(null, $commentText, $user);
+                
                 $pictureCommentId = $selectedPicture->getPictureId();
                 $dateAdded = date('Y-m-d\TH:i:s');
-                $comment = new Comment($user->getUserId(), $pictureCommentId, $commentText, $dateAdded);
+                $comment = new Comment($commentId, $user->getUserId(), $pictureCommentId, $commentText, $dateAdded);
+                //$comment = new Comment($user->getUserId(), $pictureCommentId, $commentText, $dateAdded);
                 $dao = new DataAccessObject(INI_FILE_PATH);
                 $dao->saveComment($comment);
             }
@@ -244,9 +247,11 @@ if ($noPictureMessage != "") {
     if (trim($selectedPicture->getDescription()) != "") {
         print "<span style='font-weight:bold' >Description:</span><p>" . $selectedPicture->getDescription();
     }
-    if (count($selectedPicture->getComments()) > 0) {
+    if(count($dao->getCommentsForPicture($selectedPictureId)) > 0){
+    //if (count($selectedPicture->getComments()) > 0) {
         print "<span style='font-weight:bold' >Comments:</span><br/>";
-        foreach ($selectedPicture->getComments() as $comment) {
+      //  foreach ($selectedPicture->getComments() as $comment) {
+        foreach ($dao->getCommentsForPicture($selectedPictureId) as $comment){
             $authur = $comment->getAuthur()->getname();
             $date = $comment->getDate()->format('Y-m-d');
             $text = $comment->getCommentText();
@@ -257,7 +262,7 @@ if ($noPictureMessage != "") {
                             </div>
                             <textArea name="commentText" rows="4" style="width:100%; margin-top:2px" plceholder="Leave a comment..."></textArea>
                                 <br/>
-                                <input type="submit" value="Add Comment" class="btn btn-primary btn-min-width" name="btnComment"
+                                <input type="submit" value="Add Comment" class="btn btn-primary btn-min-width" name="btnComment" />
                         </div>
                             <?php
                 }
