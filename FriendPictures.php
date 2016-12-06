@@ -24,7 +24,7 @@
         }
 
         
-        
+        $dao = new DataAccessObject(INI_FILE_PATH);
         //$user = $_SESSION["user"];
         //$userId = $user->getUserId();
         //$albums = $user->getAlbums();
@@ -34,7 +34,7 @@
         
         
         $userId = $_GET['friendId'];
-        $seur = getUserById($userId);
+        $user = $dao->getUserById($userId);
         $albums = $user->getAlbums();
         
         if ($albumChangedFlag) {
