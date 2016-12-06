@@ -30,6 +30,17 @@
 
         extract($_POST);
         extract($_GET);
+        
+           if ($albumChangedFlag) {
+            foreach ($albums as $album) {
+                $currentAlbumId = $album->getAlbumId();
+                if ($currentAlbumId  == $selectedAlbumId) {
+                    $selectedAlbum = $album;
+                }
+            }
+            $_SESSION["selectedAlbum"] = $selectedAlbum;
+        }
+
 
         if (isset($_SESSION['selectedAlbum']) && isset($_SESSION['selectedPicture'])) {
             $selectedAlbum = $_SESSION['selectedAlbum'];
@@ -122,7 +133,7 @@
                             <select name='selectedAlbumId[]' class='form-control' onchange="onAlbumChange()">
                                 <?php
                                 foreach ($albums as $album) {
-                $albumDisplayText = $album->getTitle()."Updated on ". $album->getDate_Updated();
+                $albumDisplayText = $album->getTitle()." - Updated on - ". $album->getDate_Updated();
                 $albumId = $album->getAlbumId();
                 ?>
                                 <option value="<?php print $albumId ?>" 
@@ -142,6 +153,7 @@
                                 
                                 
                             </select>
+                            <input type="hidden" id="albumChangedFlag" name="albumChangedFlag" value="" />
                         </div>
                     </div>
 
@@ -181,13 +193,14 @@
                                         foreach ($pictures as $picture) {
                                             $thumbnailPath = ALBUM_THUMBNAIL_DIR . "/$userId/$selectedAlbumId/" . $picture->getFileName();
                                             $pictureId = $picture->getPictureId();
-                                            $rand = rand();
+                                            $rnd = rand();
                                             if ($selectedPictureId == $pictureId) {
                                                 print "<button value='$pictureId' name='selectedPictureId' style='border-style: solid; border-color: blue; border-width: 3px'>";
                                             } else {
                                                 print "<button value='$pictureId' name='selectedPictureId'>";
                                             }
-                                            print "<img style='height:65px; auto;' src='$thumbnailPath?rnd=$rand'></button>";
+                                           print "<img style='height:65px; auto' src='$thumbnailPath ? rnd=$rand'></button>";
+                                               
                                         }
                                         if (!isset($scrollPosition)) {
                                             $scrollPosition = 0;
