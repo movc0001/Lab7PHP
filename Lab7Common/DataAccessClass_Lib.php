@@ -119,6 +119,10 @@ class DataAccessObject {
 
         
         $comment->setCommentId($commentId);
+        $comment->setAuthorId($author);
+        $comment->setPictureId($pic);
+        $comment->setCommentText($text);
+        $comment->setCommentDate($date);
         //$comment ->setDate();
         
     }

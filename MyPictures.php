@@ -247,9 +247,11 @@ if ($noPictureMessage != "") {
     if (trim($selectedPicture->getDescription()) != "") {
         print "<span style='font-weight:bold' >Description:</span><p>" . $selectedPicture->getDescription();
     }
-    if (count($selectedPicture->getComments()) > 0) {
+    if(count($dao->getCommentsForPicture($selectedPictureId)) > 0){
+    //if (count($selectedPicture->getComments()) > 0) {
         print "<span style='font-weight:bold' >Comments:</span><br/>";
-        foreach ($selectedPicture->getComments() as $comment) {
+      //  foreach ($selectedPicture->getComments() as $comment) {
+        foreach ($dao->getCommentsForPicture($selectedPictureId) as $comment){
             $authur = $comment->getAuthur()->getname();
             $date = $comment->getDate()->format('Y-m-d');
             $text = $comment->getCommentText();
