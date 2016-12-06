@@ -115,7 +115,7 @@ class DataAccessObject {
         $date = $comment->getCommentDate();
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['id'=>$commentId, 'authorId'=> $author, 'pictureId'=>$pic, 'commentText'=> $text, ['date']=>$date]);
+        $stmt->execute(['id'=>$commentId, 'authorId'=> $author, 'pictureId'=>$pic, 'commentText'=> $text, 'date'=>$date]);
 
         
         $comment->setCommentId($commentId);

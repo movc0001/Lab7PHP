@@ -273,20 +273,24 @@ Class Comment {
     private $commentText;
     private $commentDate;
     
-    public function __construct($authorId, $pictureId, $commentText, $commentDate, $commentId=null ) {
+    
+    public function __construct($commentId, $authorId, $pictureId, $commentText, $commentDate=null) {
         $this->commentId = $commentId;
         $this->authorId = $authorId;
         $this->pictureId = $pictureId;
         $this->commentText = $commentText;
         $this->commentDate = $commentDate;
     }
-    public function setPictureId($pictureId) {
-        $this->pictureId = $pictureId;
-    }
 
-   
-
-        public function getCommentId() {
+//    public function __construct($authorId, $pictureId, $commentText, $commentDate, $commentId=null ) {
+//        $this->commentId = $commentId;
+//        $this->authorId = $authorId;
+//        $this->pictureId = $pictureId;
+//        $this->commentText = $commentText;
+//        $this->commentDate = $commentDate;
+//    }
+    
+    public function getCommentId() {
         return $this->commentId;
     }
 
@@ -313,14 +317,11 @@ Class Comment {
     public function getCommentDate() {
         return $this->commentDate;
     }
-
-
-
-
-
-
-
     
+    public function setPictureId($pictureId) {
+        $this->pictureId = $pictureId;
+    }
+   
 }
 
 ?>

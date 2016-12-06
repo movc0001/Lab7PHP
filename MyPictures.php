@@ -28,6 +28,7 @@
         $user = $_SESSION["user"];
         $userId = $user->getUserId();
         $albums = $user->getAlbums();
+        $commentText = $_POST['commentText'];
 
         extract($_POST);
         extract($_GET);
@@ -64,9 +65,11 @@
         } else if (isset($btnComment)) {
             if (trim($commentText) != "") {
                 //$comment = new Comment(null, $commentText, $user);
+                
                 $pictureCommentId = $selectedPicture->getPictureId();
                 $dateAdded = date('Y-m-d\TH:i:s');
-                $comment = new Comment($user->getUserId(), $pictureCommentId, $commentText, $dateAdded);
+                $comment = new Comment($commentId, $user->getUserId(), $pictureCommentId, $commentText, $dateAdded);
+                //$comment = new Comment($user->getUserId(), $pictureCommentId, $commentText, $dateAdded);
                 $dao = new DataAccessObject(INI_FILE_PATH);
                 $dao->saveComment($comment);
             }
@@ -257,7 +260,7 @@ if ($noPictureMessage != "") {
                             </div>
                             <textArea name="commentText" rows="4" style="width:100%; margin-top:2px" plceholder="Leave a comment..."></textArea>
                                 <br/>
-                                <input type="submit" value="Add Comment" class="btn btn-primary btn-min-width" name="btnComment"
+                                <input type="submit" value="Add Comment" class="btn btn-primary btn-min-width" name="btnComment" />
                         </div>
                             <?php
                 }
