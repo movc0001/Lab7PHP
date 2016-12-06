@@ -211,7 +211,7 @@ if ($noPictureMessage != "") {
                                         if (!isset($scrollPosition)) {
                                             $scrollPosition = 0;
                                         }
-                                        $_SESSION['selectedPicture'] = $selectePicture;
+                                        $_SESSION['selectedPicture'] = $selectedPicture;
                                         $_SESSION['selectedAlbum'] = $selectedAlbum;
                                         ?> <!-- --------------------- --> 
                                         <input type="hidden" name="scrollPosition" id="scrollPosition" value="<?php print $scrollPosition; ?>"/>

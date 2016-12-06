@@ -1,6 +1,6 @@
 <html xmlns = "http://www.w3.org/1999/xhtml">
     <head>
-        <title>Course Registration</title>
+        <title>Algonquin Social media</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="x-ua-compatible" content="ie=edge"/>
@@ -18,7 +18,7 @@
         <div class="container">
             <div class="row vertical-margin">
                 <div class="col-md-12">
-            <h3>Welcome to Algonquin Sociaal Media Website!</h3>
+            <h3>Welcome to Algonquin Social Media Website!</h3>
                 </div>
             </div>
             <div class="row vertical-margin">
