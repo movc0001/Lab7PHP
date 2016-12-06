@@ -30,15 +30,17 @@
 
         extract($_POST);
         extract($_GET);
-        
-           if ($albumChangedFlag) {
+
+        if ($albumChangedFlag) {
             foreach ($albums as $album) {
                 $currentAlbumId = $album->getAlbumId();
-                if ($currentAlbumId  == $selectedAlbumId) {
+                if ($currentAlbumId == $selectedAlbumId) {
                     $selectedAlbum = $album;
                 }
             }
+            $selectedAlbumId = $selectedAlbum->getAlbumId();
             $_SESSION["selectedAlbum"] = $selectedAlbum;
+            $_SESSION["selectedAlbumId"] = $selectedAlbumId;
         }
 
 
@@ -56,16 +58,18 @@
                 $dao->saveComment($selectedPicture, $comment);
             }
         } else if (isset($selectedAlbumId)) {
-            $selectedAlbum = $albums[$selectedAlbumId];
+//            $selectedAlbum = $albums[$selectedAlbumId];
+            //$selectedAlbum = $dao->getAlbumById($selectedAlbumId);
+            $numPics = $selectedAlbum->getPictures();
 
-            if (count($selectedAlbum->getPictures()) == 0) {
+            if (count($numPics) == 0) {
                 $noPictureMessage = "You do not have pictures in the selected album!";
             } else {
                 $selectedPictureId = array_keys($selectedAlbum->getPictures())[0];
                 $selectedPicture = $selectedAlbum->getPictures()[$selectedPictureId];
             }
         } else if (isset($action)) { //------------ needs to be done -----------------
-            $selectedAlbumId = $selectedAlbum->getAlbum();
+            $selectedAlbumId = $selectedAlbum->getAlbumId();
             $selectedPictureFilePath = ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId/" . $selectedPicture->getFileName();
             $selectedThumbnailFilePath = ALBUM_THUMBNAILS_DIR . "/$userId/$selectedAlbumId/" . $selectedPicture->getFileName();
             $selectedOriginalPictureFilePath = ORIGINAL_PICTURES_DIR . "/$userId/$selectedAlbumId/" . $selectedPicture;
@@ -118,27 +122,26 @@
                 <div class="row vertical-margin text-center">
                     <h2>My Pictures</h2>
                 </div>
-                <?php
-                if ($noAlbumMessage != "") {
-                    ?>
+<?php
+if ($noAlbumMessage != "") {
+    ?>
                     <div class="row vertical-margin">
                         <div class="col-md-6 col-md-offset-3 text-center error"><?php print ($noAlbumMessage) ?></div>
                     </div>
 
-                    <?php
-                } else {
-                    ?>
+    <?php
+} else {
+    ?>
                     <div class="row vertical-margin">
                         <div class="col-md-8">
-                            <select name='selectedAlbumId[]' class='form-control' onchange="onAlbumChange()">
-                                <?php
-                                foreach ($albums as $album) {
-                $albumDisplayText = $album->getTitle()." - Updated on - ". $album->getDate_Updated();
-                $albumId = $album->getAlbumId();
-                ?>
-                                <option value="<?php print $albumId ?>" 
-                                <?php
-
+                            <select name='selectedAlbumId' id="selectedAlbumId" class='form-control' onchange="onAlbumChange()">
+    <?php
+    foreach ($albums as $album) {
+        $albumDisplayText = $album->getTitle() . " - Updated on - " . $album->getDate_Updated();
+        $albumId = $album->getAlbumId();
+        ?>
+                                    <option value="<?php print $albumId ?>" 
+                                    <?php
                                     //print "<option value='$albumId' " ;//. $albumId == $selectedAlbumId ? "selected" : "" . ">$albumId"; // ------- needs to be modified ------
                                     if ($albumId == $selectedAlbumId) {
                                         print 'selected';
@@ -146,29 +149,30 @@
                                         print '';
                                     }
                                     ?>
-                                       > 
-                                <?php   print $albumDisplayText; }?>                             
-                                    
-                                   </option>
-                                
-                                
+                                            > 
+                                    <?php print $albumDisplayText;
+                                } ?>                             
+
+                                </option>
+
+
                             </select>
                             <input type="hidden" id="albumChangedFlag" name="albumChangedFlag" value="" />
                         </div>
                     </div>
 
-                    <?php
-                }
-                if ($noPictureMessage != "") {
-                    ?>
+    <?php
+}
+if ($noPictureMessage != "") {
+    ?>
                     <div class="row vertical-margin">
                         <div class="col-md-8 error"><?php print ($noPictureMessage) ?></div>
                     </div>
-                    <?php
-                } else if ($noPictureMessage == "" && $noAlbumMessage == "") {
-                    $selectedAlbumId = $selectedAlbum->getAlbumId();
-                    $selectedPictureFilePath = ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId/" . $selectedPicture->getFileName();
-                    ?>
+    <?php
+} else if ($noPictureMessage == "" && $noAlbumMessage == "") {
+    $selectedAlbumId = $selectedAlbum->getAlbumId();
+    $selectedPictureFilePath = ALBUM_PICTURES_DIR . "/$userId/$selectedAlbumId/" . $selectedPicture->getFileName();
+    ?>
 
                     <div class="row vertical-margin">
                         <div class="row col-md-8 text-center"><h3><?php print $selectedAlbum->getTitle(); ?></h3></div>
@@ -188,19 +192,21 @@
                             <div class="row vertical-margin" style="white-space: nowrap">
                                 <div class="col-md-12">
                                     <div style="overflow-x: auto; overflow-y: hidden;" id="thumbnail-bar" onscroll="onThumbnailBarScroll()">
-                                        <?php
-                                        $pictures = $selectedAlbum->getPictures();
-                                        foreach ($pictures as $picture) {
-                                            $thumbnailPath = ALBUM_THUMBNAIL_DIR . "/$userId/$selectedAlbumId/" . $picture->getFileName();
-                                            $pictureId = $picture->getPictureId();
-                                            $rnd = rand();
-                                            if ($selectedPictureId == $pictureId) {
-                                                print "<button value='$pictureId' name='selectedPictureId' style='border-style: solid; border-color: blue; border-width: 3px'>";
-                                            } else {
-                                                print "<button value='$pictureId' name='selectedPictureId'>";
-                                            }
-                                           print "<img style='height:65px; auto' src='$thumbnailPath ? rnd=$rand'></button>";
-                                               
+    <?php
+    $pictures = $selectedAlbum->getPictures();
+    foreach ($pictures as $picture) {
+        $thumbnailPath = ALBUM_THUMBNAIL_DIR . "/$userId/$selectedAlbumId/" . $picture->getFileName();
+        $pictureId = $picture->getPictureId();
+//                                            $rnd = rand();
+        if ($selectedPictureId == $pictureId) {
+            print "<button value='$pictureId' name='selectedPictureId' style='border-style: solid; border-color: blue; border-width: 3px'>";
+        } else {
+            print "<button value='$pictureId' name='selectedPictureId'>";
+        }
+        ?>
+                                            <img style="height:65px; auto" src="<?php print $thumbnailPath . "?rnd=" . rand(); ?>"/> 
+                                            <?php
+                                            print "</button>";
                                         }
                                         if (!isset($scrollPosition)) {
                                             $scrollPosition = 0;
@@ -215,26 +221,26 @@
                         </div>
                         <div class="col-md-4" >
                             <div style="overflow-y: auto; overflow-x: hidden; text-align: left; max-height: 420px;">
-                                <?php
-                                if (trim($selectedPicture->getDescription()) != "") {
-                                    print "<span style='font-weight:bold' >Description:</span><p>" . $selectedPicture->getDescription();
-                                }
-                                if (count($selectedPicture->getComments()) > 0) {
-                                    print "<span style='font-weight:bold' >Comments:</span><br/>";
-                                    foreach ($selectedPicture->getComments() as $comment) {
-                                        $authur = $comment->getAuthur()->getname();
-                                        $date = $comment->getDate()->format('Y-m-d');
-                                        $text = $comment->getCommentText();
-                                        print "<p><span style='font-weight:italio; color:blue;'>$authur ($date):</span>$text</p>";
-                                    }
-                                }
-                                ?>
+    <?php
+    if (trim($selectedPicture->getDescription()) != "") {
+        print "<span style='font-weight:bold' >Description:</span><p>" . $selectedPicture->getDescription();
+    }
+    if (count($selectedPicture->getComments()) > 0) {
+        print "<span style='font-weight:bold' >Comments:</span><br/>";
+        foreach ($selectedPicture->getComments() as $comment) {
+            $authur = $comment->getAuthur()->getname();
+            $date = $comment->getDate()->format('Y-m-d');
+            $text = $comment->getCommentText();
+            print "<p><span style='font-weight:italio; color:blue;'>$authur ($date):</span>$text</p>";
+        }
+    }
+    ?>
                             </div>
                             <textArea name="commentText" rows="4" style="width:100%; margin-top:2px" plceholder="Leave a comment..."></textArea>
-                            <br/>
-                            <input type="submit" value="Add Comment" class="btn btn-primary btn-min-width" name="btnComment"
-                    </div>
-                    <?php
+                                <br/>
+                                <input type="submit" value="Add Comment" class="btn btn-primary btn-min-width" name="btnComment"
+                        </div>
+                            <?php
                 }
                 ?>
         </form>
