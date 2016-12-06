@@ -1,6 +1,6 @@
 <html xmlns = "http://www.w3.org/1999/xhtml">
     <head>
-        <title>My Pictures</title>
+        <title>Friend's Album</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="x-ua-compatible" content="ie=edge"/>
@@ -14,6 +14,7 @@
         include_once "./Lab7Common/DataAccessClass_Lib.php";
         include "./Lab7Common/Function_Lib.php";
         include "./Lab7Common/Constants.php";
+        include "./Lab7Common/ImageFunction_Lib.php";
 
         session_start();
 
@@ -32,11 +33,13 @@
         extract($_POST);
         extract($_GET);
         
+        unset($_SESSION['selectedAlbum']);
+        unset($_SESSION['selectedPicture']);
         
         $userId = $_GET['friendId'];
         $user = $dao->getUserById($userId);
-        $albums = $user->getAlbums();
-        
+        $albums = $dao->getAlbumsForUser($user);
+               
         if ($albumChangedFlag) {
             foreach ($albums as $album) {
                 $currentAlbumId = $album->getAlbumId();
@@ -122,7 +125,7 @@
         <div class="container">
             <form class="form-horizontal" method="post" id="friendpicture-form" action="FriendPictures.php">
                 <div class="row vertical-margin text-center">
-                    <h2>My Pictures</h2>
+                    <h2><?php print $user->getName()."'s Pictures " ?></h2>
                 </div>
                 <?php
                 if ($noAlbumMessage != "") {
@@ -211,7 +214,7 @@
                                         if (!isset($scrollPosition)) {
                                             $scrollPosition = 0;
                                         }
-                                        $_SESSION['selectedPicture'] = $selectePicture;
+                                        $_SESSION['selectedPicture'] = $selectedPicture;
                                         $_SESSION['selectedAlbum'] = $selectedAlbum;
                                         ?> <!-- --------------------- --> 
                                         <input type="hidden" name="scrollPosition" id="scrollPosition" value="<?php print $scrollPosition; ?>"/>
@@ -228,8 +231,8 @@
                                 if (count($selectedPicture->getComments()) > 0) {
                                     print "<span style='font-weight:bold' >Comments:</span><br/>";
                                     foreach ($selectedPicture->getComments() as $comment) {
-                                        $authur = $comment->getAuthur()->getname();
-                                        $date = $comment->getDate()->format('Y-m-d');
+                                        $authur = $comment->getAuthur()->getName();
+                                        $date = $comment->getCommentDate()->format('Y-m-d');
                                         $text = $comment->getCommentText();
                                         print "<p><span style='font-weight:italio; color:blue;'>$authur ($date):</span>$text</p>";
                                     }
@@ -238,7 +241,7 @@
                             </div>
                             <textArea name="commentText" rows="4" style="width:100%; margin-top:2px" plceholder="Leave a comment..."></textArea>
                             <br/>
-                            <input type="submit" value="Add Comment" class="btn btn-primary btn-min-width" name="btnComment"
+                            <input type="submit" value="Add Comment" class="btn btn-primary btn-min-width" name="btnComment" />
                     </div>
                     <?php
                 }
