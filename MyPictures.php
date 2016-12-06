@@ -14,6 +14,7 @@
         include_once "./Lab7Common/DataAccessClass_Lib.php";
         include "./Lab7Common/Function_Lib.php";
         include "./Lab7Common/Constants.php";
+        include "./Lab7Common/ImageFunction_Lib.php";
 
         //$dao = new DataAccessObject(INI_FILE_PATH);
         session_start();

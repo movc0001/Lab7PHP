@@ -1,6 +1,6 @@
 <html xmlns = "http://www.w3.org/1999/xhtml">
     <head>
-        <title>My Pictures</title>
+        <title>Friend's Album</title>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="x-ua-compatible" content="ie=edge"/>
@@ -14,6 +14,7 @@
         include_once "./Lab7Common/DataAccessClass_Lib.php";
         include "./Lab7Common/Function_Lib.php";
         include "./Lab7Common/Constants.php";
+        include "./Lab7Common/ImageFunction_Lib.php";
 
         session_start();
 
@@ -32,11 +33,13 @@
         extract($_POST);
         extract($_GET);
         
+        unset($_SESSION['selectedAlbum']);
+        unset($_SESSION['selectedPicture']);
         
         $userId = $_GET['friendId'];
         $user = $dao->getUserById($userId);
-        $albums = $user->getAlbums();
-        
+        $albums = $dao->getAlbumsForUser($user);
+               
         if ($albumChangedFlag) {
             foreach ($albums as $album) {
                 $currentAlbumId = $album->getAlbumId();
