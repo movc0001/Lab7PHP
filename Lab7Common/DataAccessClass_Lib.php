@@ -105,14 +105,21 @@ class DataAccessObject {
         $stmt->execute(['userId' => $userId, 'name' => $name, 'phone' => $phone, 'password' => $password]);
     }
 
-    public function saveComment($picture, $comment, $userId, $date) {
-        $sql = "INSERT INTO Comment VALUES(null, :authorId, :pictureId, :comentText, :date)";
+    public function saveComment($comment) {
+        $sql = "INSERT INTO Comment (Comment_Id, Author_Id, Picture_Id, Comment_Text, Date) VALUES(:id, :authorId, :pictureId, :commentText, :date)";
+        $commentId = $this->pdo->lastInsertId();
+        //$dateAdded = date('Y-m-d\TH:i:s');
+        $author = $comment->getAuthorId();
+        $pic = $comment->getPictureId();
+        $text = $comment->getCommentText();
+        $date = $comment->getCommentDate();
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['comentText' => $comment, 'pictureId' => $picture->getPictureId(), 'authorId'=> $userId, ['date']=>$date]);
-         
-        $commentId = $this->pdo->lastInsertId();
+        $stmt->execute(['id'=>$commentId, 'authorId'=> $author, 'pictureId'=>$pic, 'commentText'=> $text, ['date']=>$date]);
+
+        
         $comment->setCommentId($commentId);
+        //$comment ->setDate();
         
     }
 

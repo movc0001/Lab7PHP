@@ -14,6 +14,7 @@
         include_once "./Lab7Common/DataAccessClass_Lib.php";
         include "./Lab7Common/Function_Lib.php";
         include "./Lab7Common/Constants.php";
+        include "./Lab7Common/ImageFunction_Lib.php";
 
         //$dao = new DataAccessObject(INI_FILE_PATH);
         session_start();
@@ -62,9 +63,12 @@
             
         } else if (isset($btnComment)) {
             if (trim($commentText) != "") {
-                $comment = new Comment(null, $commentText, $user);
+                //$comment = new Comment(null, $commentText, $user);
+                $pictureCommentId = $selectedPicture->getPictureId();
+                $dateAdded = date('Y-m-d\TH:i:s');
+                $comment = new Comment($user->getUserId(), $pictureCommentId, $commentText, $dateAdded);
                 $dao = new DataAccessObject(INI_FILE_PATH);
-                $dao->saveComment($selectedPicture, $comment);
+                $dao->saveComment($comment);
             }
         } else if (isset($selectedAlbumId)) {
 //            $selectedAlbum = $albums[$selectedAlbumId];
