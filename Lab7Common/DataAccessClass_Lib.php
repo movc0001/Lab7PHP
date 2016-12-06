@@ -48,6 +48,20 @@ class DataAccessObject {
         $user->setAlbums($albums);
         return $albums;
     }
+    
+    public function getAlbumById($albumId){
+        $sql='SELECT Album_Id, Title, Description, Date_Updated, Owner_Id, Accessibility_Code FROM Album WHERE Album_Id = :albumId';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['albumId' => $albumId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            
+            $album = new Album($row['Title'], $row['Description'], $row['Date_Updated'], $row['Accessibility_Code'], $row['Album_Id']);
+        }
+        return $album;
+        
+    }
 
     public function updateAlbumAccessibillity($albumid, $newAccessibillityCode) {
         $sql = "UPDATE Album SET Accessibility_Code = :accessibilityCode WHERE Album_Id = :albumId";
