@@ -105,30 +105,33 @@ class DataAccessObject {
         $stmt->execute(['userId' => $userId, 'name' => $name, 'phone' => $phone, 'password' => $password]);
     }
 
-    public function saveComment($picture, $comment) {
+    public function saveComment($picture, $comment, $userId, $date) {
         $sql = "INSERT INTO Comment VALUES(null, :authorId, :pictureId, :comentText, :date)";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['Comment_Text' => $comment, 'Picture_Id' => $picture->getPictureId()]);
-
-        $comment->setCommentText($comment);
-        $user->setPictureId($$picture->getPictureId());
+        $stmt->execute(['comentText' => $comment, 'pictureId' => $picture->getPictureId(), 'authorId'=> $userId, ['date']=>$date]);
+         
+        $commentId = $this->pdo->lastInsertId();
+        $comment->setCommentId($commentId);
+        
     }
 
-    public function getCommentsForPicture($picture) { //not done
-        $sql = "SELECT Comment_Id, Comment_Text, Date, UserId, Name, Phone FROM Comment "
-                . "INNER JOIN User ON Comment.Author_Id = User.UserId WHERE Picture_Id = :pictureId";
+    public function getCommentsForPicture($picture) { 
+        $sql = "SELECT Comment_Id, Author_Id, Picture_Id, Comment_Text, Date FROM Comment WHERE Picture_Id = :pictureId";
+        $commentsForPicture = array();
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['pictureId' => $picture->getPictureId()]);
         foreach ($stmt as $row) {
-            $dateUpdated = DateTime::createFromFormat('Y-m-d G:i:s', $row['Date_Updated']);
+            //$dateUpdated = DateTime::createFromFormat('Y-m-d G:i:s', $row['Date_Updated']);
             //$album = new Album($row['Title'], $row['Description'], $row['Accessibility_Code'],$row['Album_Id'], $dateUpdated);
-            $comment = new Comment($row['']);
-            $this->getPicturesForAlbum($album);
-            $albums[$album->getAlbumId()] = $album;
+            $comment = new Comment($row['Author_Id'], $row['Picture_Id'], $row['Comment_Text'], $row['Date'], $row['Comment_Id']);
+            
+           $commentsForPicture[] = $comment;
+//            $this->getPicturesForAlbum($album);
+//            $albums[$album->getAlbumId()] = $album;
         }
-        //$user->setAlbums($albums);
+        return $commentsForPicture;
     }
 
     public function savePicture($album, $picture) { //not done
@@ -137,12 +140,12 @@ class DataAccessObject {
         $stmt->execute(['albumId' => $album->getAlbumId(), 'fileName' => $picture->getFileName(), 'title' => $picture->getTitle(), 'description' => $picture->getDescription(), 'dateAdded' => $picture->getDateUploaded()]);
 
         $pictureId = $this->pdo->lastInsertId();
-        $picture->setPictureId($pictureId);
+        $pictureWithId = $picture->setPictureId($pictureId);
         //$user->addAlbum($album);
         //$album = getAlbumById($albumid);
 
         $picToAlbum = $album->getPictures();
-        $picToAlbum[] = $picture;
+        $picToAlbum[] = $pictureWithId;
         $album->setPictures($picToAlbum);
     }
 
@@ -213,12 +216,11 @@ class DataAccessObject {
         }
         $user->setFriends($friends);
         
-        // //// neeeeds to be done ----------------
-
+    
         
     }
 
-    public function getFriendRequestersForUser($user) { //not done
+    public function getFriendRequestersForUser($user) { 
         $sql = "SELECT Friend_RequesterId FROM Friendship "
                 . "WHERE Friend_RequesteeId = :userId AND Status = 'request'";
 
@@ -243,11 +245,7 @@ class DataAccessObject {
         $sql = "INSERT INTO Friendship VALUES(:userId, :requesteeId, 'request')";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $user->getUserId(), 'requesteeId' => $requesteeId]);
-        //$requestee = $this->getUserById($requesteeId);
-        // $requesters = $user->getFriendrequesters();
-        //$requesters[] = $requestee;
-        //$user->setFriendrequesters($requesters);
-
+        
 
 
         return $requestee;
