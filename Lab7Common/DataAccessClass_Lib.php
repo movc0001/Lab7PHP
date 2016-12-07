@@ -316,7 +316,7 @@ class DataAccessObject {
 
         if ($row) {
 
-            $picture = new Picture($row['Title'], $row['Description'], $row['FileName'], $row = ['Picture_Id']);
+            $picture = new Picture($row['Title'], $row['Description'], $row['FileName'], $pictureId);
         }
         return $picture;
     }
