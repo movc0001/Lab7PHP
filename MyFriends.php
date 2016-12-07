@@ -138,7 +138,7 @@
                     </div>
                     <div class="col-md-10 text-right ">
                         <input class="btn btn-primary" type = "submit" name="btnAccept" value = "Accept Selected" class="button" />
-                        <input class="btn btn-primary" type = "submit" name="btnDeny" value = "Deny Selected" class="button" />
+                        <input class="btn btn-primary" type = "submit" name="btnDeny" onclick="return confirm('Are you sure you want to decline this friend request?')" value = "Deny Selected" class="button" />
                     </div>
 
                 </form>
