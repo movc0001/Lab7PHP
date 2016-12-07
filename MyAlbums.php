@@ -92,7 +92,7 @@ foreach ($accessibility as $anAccebility){
 ?>
 
                         <tr>
-                            <td><a href="MyPictures.php"><?php print $title; ?></a></td>
+                            <td><a href="MyPictures.php" ><?php print $title; ?></a></td>
                             <td><?php print $date; ?></td>
                             <td><?php print $numOfPics ?></td>
                             <td><select class="form-control" name="drpAccessibility[]">
