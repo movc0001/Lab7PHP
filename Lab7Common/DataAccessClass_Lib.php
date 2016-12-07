@@ -48,19 +48,18 @@ class DataAccessObject {
         $user->setAlbums($albums);
         return $albums;
     }
-    
-    public function getAlbumById($albumId){
-        $sql='SELECT Album_Id, Title, Description, Date_Updated, Owner_Id, Accessibility_Code FROM Album WHERE Album_Id = :albumId';
+
+    public function getAlbumById($albumId) {
+        $sql = 'SELECT Album_Id, Title, Description, Date_Updated, Owner_Id, Accessibility_Code FROM Album WHERE Album_Id = :albumId';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['albumId' => $albumId]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row) {
-            
+
             $album = new Album($row['Title'], $row['Description'], $row['Date_Updated'], $row['Accessibility_Code'], $row['Album_Id']);
         }
         return $album;
-        
     }
 
     public function updateAlbumAccessibillity($albumid, $newAccessibillityCode) {
@@ -115,34 +114,40 @@ class DataAccessObject {
         $date = $comment->getCommentDate();
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['id'=>$commentId, 'authorId'=> $author, 'pictureId'=>$pic, 'commentText'=> $text, 'date'=>$date]);
+        $stmt->execute(['id' => $commentId, 'authorId' => $author, 'pictureId' => $pic, 'commentText' => $text, 'date' => $date]);
 
-        
-        $comment->setCommentId($commentId);
-        $comment->setAuthorId($author);
-        $comment->setPictureId($pic);
-        $comment->setCommentText($text);
-        $comment->setCommentDate($date);
+        $picture = $this->getPictureById($pic);
+
+        $pictureComments = $picture->getComments();
+        $pictureComments[] = $comment;
+        $picture->setComments($pictureComments);
+        //temp comment
+//        $comment->setCommentId($commentId);
+//        $comment->setAuthorId($author);
+//        $comment->setPictureId($pic);
+//        $comment->setCommentText($text);
+//        $comment->setCommentDate($date);
+        /////////
         //$comment ->setDate();
-        
     }
 
-    public function getCommentsForPicture($picture) { 
+    public function getCommentsForPicture($picture) {
         $sql = "SELECT Comment_Id, Author_Id, Picture_Id, Comment_Text, Date FROM Comment WHERE Picture_Id = :pictureId";
-        $commentsForPicture = array();
-
+        $allcommentsForPicture = array();
+        $pictureId = $picture->getPictureId();
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['pictureId' => $picture->getPictureId()]);
+        $stmt->execute(['pictureId' => $pictureId]);
         foreach ($stmt as $row) {
             //$dateUpdated = DateTime::createFromFormat('Y-m-d G:i:s', $row['Date_Updated']);
             //$album = new Album($row['Title'], $row['Description'], $row['Accessibility_Code'],$row['Album_Id'], $dateUpdated);
-            $comment = new Comment($row['Author_Id'], $row['Picture_Id'], $row['Comment_Text'], $row['Date'], $row['Comment_Id']);
-            
-           $commentsForPicture[] = $comment;
+            //$comment = new Comment($row['Author_Id'], $row['Picture_Id'], $row['Comment_Text'], $row['Date'], $row['Comment_Id']);
+            $comment = new Comment($row['Comment_Id'], $row['Author_Id'], $row['Picture_Id'], $row['Comment_Text'], $row['Date']);
+
+            $allcommentsForPicture[] = $comment;
 //            $this->getPicturesForAlbum($album);
 //            $albums[$album->getAlbumId()] = $album;
         }
-        return $commentsForPicture;
+        return $allcommentsForPicture;
     }
 
     public function savePicture($album, $picture) { //not done
@@ -220,18 +225,14 @@ class DataAccessObject {
             $friendIds[] = $row[Friend_RequesteeId];
         }
         $friends = array();
-        foreach($friendIds as $friend){
+        foreach ($friendIds as $friend) {
             $aFriend = $this->getUserById($friend);
-             $friends[] = $aFriend;
-            
+            $friends[] = $aFriend;
         }
         $user->setFriends($friends);
-        
-    
-        
     }
 
-    public function getFriendRequestersForUser($user) { 
+    public function getFriendRequestersForUser($user) {
         $sql = "SELECT Friend_RequesterId FROM Friendship "
                 . "WHERE Friend_RequesteeId = :userId AND Status = 'request'";
 
@@ -256,7 +257,7 @@ class DataAccessObject {
         $sql = "INSERT INTO Friendship VALUES(:userId, :requesteeId, 'request')";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['userId' => $user->getUserId(), 'requesteeId' => $requesteeId]);
-        
+
 
 
         return $requestee;
@@ -305,6 +306,19 @@ class DataAccessObject {
             $albums[] = $album;
         }
         return $albums;
+    }
+
+    public function getPictureById($pictureId) {
+        $sql = 'SELECT Picture_Id, Album_Id, FileName, Title, Description, Date_Added FROM Picture where Picture_Id = :pictureId';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['pictureId' => $pictureId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+
+            $picture = new Picture($row['Title'], $row['Description'], $row['FileName'], $row = ['Picture_Id']);
+        }
+        return $picture;
     }
 
 }

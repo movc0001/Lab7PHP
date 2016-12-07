@@ -263,6 +263,11 @@ class Picture {
     public function getComments() {
         return $this->comments;
     }
+    public function setComments($comments) {
+        $this->comments = $comments;
+    }
+
+
 
 }
 

@@ -16,7 +16,7 @@
         include "./Lab7Common/Constants.php";
         include "./Lab7Common/ImageFunction_Lib.php";
 
-        //$dao = new DataAccessObject(INI_FILE_PATH);
+        $dao = new DataAccessObject(INI_FILE_PATH);
         session_start();
 
         if (!isset($_SESSION['user'])) {
@@ -247,22 +247,32 @@ if ($noPictureMessage != "") {
     if (trim($selectedPicture->getDescription()) != "") {
         print "<span style='font-weight:bold' >Description:</span><p>" . $selectedPicture->getDescription();
     }
-    if(count($dao->getCommentsForPicture($selectedPictureId)) > 0){
+//    foreach($pictures as $pic){
+//        if($pic->getPictureId() == $selectedPictureId){
+//            $selectPic = $pic;
+//        }
+//    }
+    $selectPic = $dao->getPictureById($selectedPictureId);
+    $allComments = $dao->getCommentsForPicture($selectPic);
+    if(count($allComments) > 0){
     //if (count($selectedPicture->getComments()) > 0) {
         print "<span style='font-weight:bold' >Comments:</span><br/>";
       //  foreach ($selectedPicture->getComments() as $comment) {
-        foreach ($dao->getCommentsForPicture($selectedPictureId) as $comment){
-            $authur = $comment->getAuthur()->getname();
-            $date = $comment->getDate()->format('Y-m-d');
+        foreach ($allComments as $comment){
+            $authurId = $comment->getAuthorId(); 
+            $author = $dao->getUserById($authurId)->getName();
+            $date = $comment->getCommentDate();
             $text = $comment->getCommentText();
-            print "<p><span style='font-weight:italio; color:blue;'>$authur ($date):</span>$text</p>";
+            print "<p><span style='font-weight:italio; color:blue;'>$authur  ($date):</span>$text</p>";
         }
     }
     ?>
                             </div>
                             <textArea name="commentText" rows="4" style="width:100%; margin-top:2px" plceholder="Leave a comment..."></textArea>
-                                <br/>
-                                <input type="submit" value="Add Comment" class="btn btn-primary btn-min-width" name="btnComment" />
+                                <br/><br>
+                                    <div class="text-right">
+                                <input type="submit" value="Add Comment"  class="btn  btn-primary btn-min-width" name="btnComment" />
+                                    </div>
                         </div>
                             <?php
                 }
