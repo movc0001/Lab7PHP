@@ -321,8 +321,6 @@ Class Comment {
     public function setCommentDate($commentDate) {
         $this->commentDate = $commentDate;
     }
-
-
 }
 
 ?>
