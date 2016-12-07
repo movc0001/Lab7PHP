@@ -44,11 +44,13 @@
             $_SESSION["selectedAlbum"] = $selectedAlbum;
             $_SESSION["selectedAlbumId"] = $selectedAlbumId;
         }
-
+            $selectedAlbum =  $_SESSION["selectedAlbum"];
 
         if (isset($_SESSION['selectedAlbum']) && isset($_SESSION['selectedPicture'])) {
             $selectedAlbum = $_SESSION['selectedAlbum'];
             $selectedPicture = $_SESSION['selectedPicture'];
+          
+            
         }
 
         if (isset($selectedPictureId)) {

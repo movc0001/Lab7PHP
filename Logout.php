@@ -12,7 +12,7 @@
         include "./Lab7Common/Header.php";
         
         session_start();
-if (isset($_SESSION['usert'])) {
+if (isset($_SESSION['user'])) {
    session_destroy();
    echo "<br> <p> you are logged out successufuly!</p>";
 } 
